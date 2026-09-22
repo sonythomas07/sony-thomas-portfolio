@@ -14,7 +14,7 @@ export default function Hero() {
 
           <h1 className="hero-title">
             <span className="hero-title-top">FULL-STACK</span> <br />
-            <span className="hero-title-gradient">DEVELOPER.</span>
+            <span className="hero-title-gradient">DEVELOPER</span>
           </h1>
 
           <p className="hero-description">

@@ -139,10 +139,10 @@
 }
 
 .social-link {
-  color: var(--text-muted, rgba(255, 255, 255, 0.5));
+  color: rgba(255, 255, 255, 0.72);
   font-size: 1.25rem;
   text-decoration: none;
-  transition: color 0.2s ease;
+  transition: color 0.2s ease, opacity 0.2s ease;
   display: flex;
   align-items: center;
   justify-content: center;
