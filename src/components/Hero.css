@@ -201,7 +201,7 @@
 .portrait-arc {
   position: absolute;
   top: 10px;
-  right: -20px;
+  right: -2px;
   width: 410px;
   height: 450px;
   transform: rotate(-30deg);
@@ -214,8 +214,8 @@
 /* Upper-Right Editorial Statement */
 .portrait-statement {
   position: absolute;
-  top: 113px;
-  right: -61px;
+  top: 153px;
+  right: -181px;
   display: flex;
   align-items: stretch;
   gap: 10px;
@@ -225,7 +225,7 @@
 
 .statement-accent-line {
   width: 1px;
-  margin-top: -10px;
+  margin-top: -20px;
   margin-bottom: 0;
   background: var(--primary, #5b8cff);
   border-radius: 1px;
@@ -236,7 +236,7 @@
   font-family: 'Sora', sans-serif;
   font-size: 0.72rem;
   font-weight: 600;
-  line-height: 1.45;
+  line-height: 1.65;
   letter-spacing: 2px;
   color: rgba(240, 242, 245, 0.65);
   text-transform: uppercase;
@@ -252,7 +252,7 @@
 .statement-solution::after {
   content: "";
   position: absolute;
-  bottom: -2px;
+  bottom: -4px;
   left: 0;
   width: 58%;
   height: 1.5px;
@@ -304,14 +304,14 @@
   }
 
   .portrait-statement {
-    right: 0;
-    top: 54px;
+    right: -80px;
+    top: 120px;
   }
 
   .portrait-arc {
     width: 340px;
     height: 400px;
-    right: -25px;
+    right: -8px;
     top: 5px;
     transform: rotate(-10deg);
   }
