@@ -32,6 +32,7 @@
   align-items: flex-start;
   z-index: 2;
   padding-left: 80px;
+  animation: heroLeftFadeIn 1.5s cubic-bezier(0.16, 1, 0.3, 1) 0s both;
 }
 
 /* Clean Intro (No Box, No Badge) */
@@ -164,7 +165,7 @@
   z-index: 1;
   padding-left: 0;
   padding-right: 20px;
-  transform: translateX(-142px);
+  transform: translateX(-30px);
 }
 
 .portrait-wrapper {
@@ -174,6 +175,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  animation: heroPortraitFadeIn 1.5s cubic-bezier(0.16, 1, 0.3, 1) 0.3s both;
 }
 
 /* Soft diffused electric-blue / indigo ambient glow concentrated on left side of head & shoulders */
@@ -215,12 +217,13 @@
 .portrait-statement {
   position: absolute;
   top: 153px;
-  right: -181px;
+  right: -55px;
   display: flex;
   align-items: stretch;
   gap: 10px;
   z-index: 3;
   pointer-events: none;
+  animation: heroStatementFadeIn 1.5s cubic-bezier(0.16, 1, 0.3, 1) 0.5s both;
 }
 
 .statement-accent-line {
@@ -480,5 +483,51 @@
   .statement-text {
     font-size: 0.65rem;
     letter-spacing: 1.6px;
+  }
+}
+
+/* ==================================================
+   HERO ENTRANCE ANIMATIONS (One-time on initial load)
+================================================== */
+@keyframes heroLeftFadeIn {
+  from {
+    opacity: 0;
+    transform: translateX(-60vw);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes heroPortraitFadeIn {
+  from {
+    opacity: 0;
+    transform: translateX(60vw);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes heroStatementFadeIn {
+  from {
+    opacity: 0;
+    transform: translateX(60vw);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-left,
+  .portrait-wrapper,
+  .portrait-statement {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
   }
 }

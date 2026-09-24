@@ -4,61 +4,42 @@ import './Footer.css';
 export default function Footer() {
   return (
     <footer className="footer">
-      <div className="container">
-        <div className="footer-top">
-          <a href="#home" className="footer-logo">
-            Sony<span>.</span>
-          </a>
-
-          <ul className="footer-nav">
-            <li>
-              <a href="#home">Home</a>
-            </li>
-            <li>
-              <a href="#about">About</a>
-            </li>
-            <li>
-              <a href="#about">Skills</a>
-            </li>
-            <li>
-              <a href="#projects">Projects</a>
-            </li>
-            <li>
-              <a href="#contact">Contact</a>
-            </li>
-          </ul>
-
-          <div className="footer-social">
-            <a
-              href="https://github.com/sonythomas07"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="GitHub"
-            >
-              <i className="fa-brands fa-github"></i>
-            </a>
-
-            <a
-              href="https://www.linkedin.com/in/sony-thomas-1856913a0/"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="LinkedIn"
-            >
-              <i className="fa-brands fa-linkedin-in"></i>
-            </a>
-
-            <a href="#contact" aria-label="Email">
-              <i className="fa-solid fa-envelope"></i>
-            </a>
-          </div>
+      <div className="container footer-container">
+        {/* Left: Copyright */}
+        <div className="footer-left">
+          <span>© 2026 Sony Thomas</span>
         </div>
 
-        <div className="footer-bottom">
-          <p>© 2026 Sony Thomas. All rights reserved.</p>
-          <p>Designed & Developed by Sony Thomas</p>
+        {/* Center: Title */}
+        <div className="footer-center">
+          <span>Full-Stack Developer</span>
+        </div>
+
+        {/* Right: Links */}
+        <div className="footer-right">
+          <a
+            href="https://github.com/sonythomas07"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="footer-link"
+          >
+            GitHub
+          </a>
+          <span className="footer-sep" aria-hidden="true">·</span>
+          <a
+            href="https://www.linkedin.com/in/sony-thomas-dev"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="footer-link"
+          >
+            LinkedIn
+          </a>
+          <span className="footer-sep" aria-hidden="true">·</span>
+          <a href="mailto:sonythomas703@gmail.com" className="footer-link">
+            Email
+          </a>
         </div>
       </div>
     </footer>
   );
 }
-

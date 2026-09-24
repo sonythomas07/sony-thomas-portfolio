@@ -1,301 +1,201 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React from 'react';
 import './Projects.css';
 import project1Img from '../assets/project_1.png';
-import workImg from '../assets/work.png';
 
-const projectsData = [
+const projectsList = [
   {
-    id: 1,
-    title: 'DashFlow: SaaS Admin Dashboard',
+    number: '01',
+    title: 'HITS PROCTORING',
+    concept: false,
     description:
-      'A desktop-focused SaaS admin dashboard built with HTML, CSS, and JavaScript, featuring analytics, sales, product and customer management, notifications, and dark/light mode.',
-    tags: ['HTML', 'CSS', 'JavaScript'],
+      'An AI-powered interview proctoring system for HR environments, combining real-time candidate monitoring, behavioral analysis, and an administrative monitoring dashboard.',
+    technologies: ['React', 'FastAPI', 'MySQL', 'YOLO', 'MediaPipe', 'OpenCV'],
     image: project1Img,
-    alt: 'DashFlow Dashboard',
-    liveLink: 'https://sonythomas07.github.io/dashflow-saas-dashboard/',
-    githubLink: 'https://github.com/sonythomas07/dashflow-saas-dashboard',
+    alt: 'HITS Proctoring Platform Preview',
+    link: null,
   },
   {
-    id: 2,
-    title: 'Project in Progress',
+    number: '02',
+    title: 'DO IT LATER',
+    concept: false,
     description:
-      "I'm currently planning and developing new web applications and full-stack software. This project will be added soon.",
-    tags: ['React', 'JavaScript', 'CSS'],
-    image: workImg,
-    alt: 'Project in Progress',
-    liveLink: '#projects',
-    githubLink: '#projects',
+      'A productivity and task management platform designed to help users organize tasks, postpone them intelligently, and stay focused on what matters.',
+    technologies: ['React', 'Vite', 'Recharts'],
+    image: null,
+    placeholderCategory: 'PRODUCTIVITY / TASK PLATFORM',
+    alt: 'Do It Later Platform Preview',
+    link: null,
   },
   {
-    id: 3,
-    title: 'Project in Progress',
+    number: '03',
+    title: 'RESTAURANT FOOD RECOMMENDATION',
+    concept: false,
     description:
-      "I'm currently planning and developing new web applications and full-stack software. This project will be added soon.",
-    tags: ['Full-Stack', 'Web App', 'API'],
-    image: workImg,
-    alt: 'Project in Progress',
-    liveLink: '#projects',
-    githubLink: '#projects',
+      'A recommendation system designed to suggest restaurants and dishes based on user preferences, cuisine, and available recommendation data.',
+    technologies: ['Python', 'Machine Learning', 'Pandas', 'Scikit-learn'],
+    image: null,
+    placeholderCategory: 'RECOMMENDATION SYSTEM',
+    alt: 'Restaurant Food Recommendation Preview',
+    link: null,
   },
   {
-    id: 4,
-    title: 'Project in Progress',
+    number: '04',
+    title: 'TRAVEL AGENT',
+    concept: true,
     description:
-      "I'm currently planning and developing new web applications and full-stack software. This project will be added soon.",
-    tags: ['React', 'Node.js', 'Database'],
-    image: workImg,
-    alt: 'Project in Progress',
-    liveLink: '#projects',
-    githubLink: '#projects',
+      'A travel planning concept focused on helping users discover destinations, explore travel options, and plan personalized trips.',
+    technologies: ['React', 'UI/UX Design'],
+    image: null,
+    placeholderCategory: 'TRAVEL PLATFORM CONCEPT',
+    alt: 'Travel Agent Concept Preview',
+    link: null,
   },
 ];
 
 export default function Projects() {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [cardsPerView, setCardsPerView] = useState(3);
-  const [isTransitioning, setIsTransitioning] = useState(true);
-
-  const trackRef = useRef(null);
-  const viewportRef = useRef(null);
-  const isDraggingRef = useRef(false);
-  const startXRef = useRef(0);
-  const currentTranslateRef = useRef(0);
-  const autoplayTimerRef = useRef(null);
-
-  // Update cards per view on resize
-  useEffect(() => {
-    const updateCardsPerView = () => {
-      if (window.innerWidth < 768) {
-        setCardsPerView(1);
-      } else if (window.innerWidth < 1024) {
-        setCardsPerView(2);
-      } else {
-        setCardsPerView(3);
-      }
-    };
-
-    updateCardsPerView();
-    window.addEventListener('resize', updateCardsPerView);
-    return () => window.removeEventListener('resize', updateCardsPerView);
-  }, []);
-
-  const totalCards = projectsData.length;
-  const maxIndex = Math.max(0, totalCards - cardsPerView);
-
-  const nextSlide = useCallback(() => {
-    setCurrentIndex((prev) => (prev >= maxIndex ? 0 : prev + 1));
-  }, [maxIndex]);
-
-  const prevSlide = useCallback(() => {
-    setCurrentIndex((prev) => (prev <= 0 ? maxIndex : prev - 1));
-  }, [maxIndex]);
-
-  // Autoplay
-  const startAutoplay = useCallback(() => {
-    stopAutoplay();
-    autoplayTimerRef.current = setInterval(() => {
-      nextSlide();
-    }, 3500);
-  }, [nextSlide]);
-
-  const stopAutoplay = useCallback(() => {
-    if (autoplayTimerRef.current) {
-      clearInterval(autoplayTimerRef.current);
-      autoplayTimerRef.current = null;
-    }
-  }, []);
-
-  useEffect(() => {
-    startAutoplay();
-    return () => stopAutoplay();
-  }, [startAutoplay, stopAutoplay]);
-
-  // Keyboard navigation
-  useEffect(() => {
-    const handleKeyDown = (e) => {
-      if (e.key === 'ArrowRight') nextSlide();
-      if (e.key === 'ArrowLeft') prevSlide();
-    };
-
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [nextSlide, prevSlide]);
-
-  // Visibility change handling
-  useEffect(() => {
-    const handleVisibility = () => {
-      if (document.hidden) {
-        stopAutoplay();
-      } else {
-        startAutoplay();
-      }
-    };
-
-    document.addEventListener('visibilitychange', handleVisibility);
-    return () => document.removeEventListener('visibilitychange', handleVisibility);
-  }, [startAutoplay, stopAutoplay]);
-
-  // Drag / Swipe handling
-  const handleDragStart = (e) => {
-    isDraggingRef.current = true;
-    stopAutoplay();
-    startXRef.current = e.type.includes('mouse') ? e.pageX : e.touches[0].clientX;
-    setIsTransitioning(false);
-  };
-
-  const handleDragMove = (e) => {
-    if (!isDraggingRef.current) return;
-    const currentX = e.type.includes('mouse') ? e.pageX : e.touches[0].clientX;
-    const diff = currentX - startXRef.current;
-    if (trackRef.current) {
-      const card = trackRef.current.querySelector('.project-card');
-      const gap = 24;
-      const cardWidth = card ? card.offsetWidth + gap : 300;
-      const baseTranslate = -(currentIndex * cardWidth);
-      currentTranslateRef.current = baseTranslate + diff;
-      trackRef.current.style.transform = `translateX(${currentTranslateRef.current}px)`;
-    }
-  };
-
-  const handleDragEnd = (e) => {
-    if (!isDraggingRef.current) return;
-    isDraggingRef.current = false;
-    setIsTransitioning(true);
-
-    const endX = e.type.includes('mouse') ? e.pageX : (e.changedTouches ? e.changedTouches[0].clientX : startXRef.current);
-    const moved = endX - startXRef.current;
-
-    if (moved < -60) {
-      nextSlide();
-    } else if (moved > 60) {
-      prevSlide();
-    } else {
-      if (trackRef.current) {
-        const card = trackRef.current.querySelector('.project-card');
-        const gap = 24;
-        const cardWidth = card ? card.offsetWidth + gap : 300;
-        trackRef.current.style.transform = `translateX(${-(currentIndex * cardWidth)}px)`;
-      }
-    }
-    startAutoplay();
-  };
-
-  // Compute transform based on index
-  const getTransform = () => {
-    if (!trackRef.current) return `translateX(0px)`;
-    const card = trackRef.current.querySelector('.project-card');
-    const gap = window.innerWidth < 768 ? 16 : 24;
-    const cardWidth = card ? card.offsetWidth + gap : 0;
-    return `translateX(${-(currentIndex * cardWidth)}px)`;
-  };
-
   return (
     <section className="projects section" id="projects">
-      <div className="container">
-        <div className="section-heading">
-          <span className="section-number">03.</span>
-          <h2>Featured Work</h2>
-        </div>
+      <div className="container projects-container">
+        {/* Main Editorial Grid */}
+        <div className="projects-editorial-grid">
+          {/* Left Intro Column */}
+          <div className="projects-left-col">
+            <div className="projects-section-label">
+              <span className="projects-num">04.</span>
+              <span className="projects-label-text">PROJECTS</span>
+            </div>
 
-        <div
-          className="projects-slider"
-          onMouseEnter={stopAutoplay}
-          onMouseLeave={startAutoplay}
-        >
-          <button
-            className="slider-btn prev-btn"
-            onClick={prevSlide}
-            aria-label="Previous Project"
-          >
-            <i className="fa-solid fa-chevron-left"></i>
-          </button>
+            <h2 className="projects-main-headline">
+              <span className="projects-headline-line headline-light">SELECTED</span>
+              <span className="projects-headline-line headline-accent">WORK.</span>
+            </h2>
 
-          <div
-            className="projects-viewport"
-            ref={viewportRef}
-            onMouseDown={handleDragStart}
-            onMouseMove={handleDragMove}
-            onMouseUp={handleDragEnd}
-            onMouseLeave={handleDragEnd}
-            onTouchStart={handleDragStart}
-            onTouchMove={handleDragMove}
-            onTouchEnd={handleDragEnd}
-          >
-            <div
-              className="projects-track"
-              ref={trackRef}
-              style={{
-                transform: getTransform(),
-                transition: isTransitioning
-                  ? 'transform 0.45s ease'
-                  : 'none',
-              }}
-            >
-              {projectsData.map((project) => (
-                <article className="project-card" key={project.id}>
-                  <div className="project-image">
-                    <img
-                      src={project.image}
-                      alt={project.alt}
-                      draggable="false"
-                    />
+            <p className="projects-supporting-text">
+              A collection of projects that reflect my interests, skills, and the kind of impact I want to create.
+            </p>
+
+            <div className="projects-accent-line" aria-hidden="true" />
+
+            <p className="projects-statement">
+              REAL PROBLEMS.
+              <br />
+              PRACTICAL SOLUTIONS.
+            </p>
+          </div>
+
+          {/* Right Column: Structured Editorial Project List */}
+          <div className="projects-right-col">
+            <div className="projects-list">
+              {projectsList.map((project) => (
+                <article className="project-row" key={project.number}>
+                  {/* Project Number */}
+                  <div className="project-row-num">
+                    <span>{project.number}</span>
                   </div>
 
-                  <div className="project-content">
-                    <h3>{project.title}</h3>
+                  {/* Project Preview */}
+                  <div className="project-row-preview">
+                    {project.image ? (
+                      <div className="project-preview-img-wrapper">
+                        <img
+                          src={project.image}
+                          alt={project.alt}
+                          className="project-preview-img"
+                          loading="lazy"
+                        />
+                      </div>
+                    ) : (
+                      <div className="project-preview-placeholder" aria-label={project.alt}>
+                        <span className="placeholder-text">{project.placeholderCategory}</span>
+                      </div>
+                    )}
+                  </div>
 
-                    <p>{project.description}</p>
+                  {/* Project Information */}
+                  <div className="project-row-info">
+                    <div className="project-title-wrap">
+                      <h3 className="project-row-title">{project.title}</h3>
+                      {project.concept && (
+                        <span className="project-concept-tag">CONCEPT</span>
+                      )}
+                    </div>
 
-                    <div className="project-tags">
-                      {project.tags.map((tag, tIdx) => (
-                        <span key={tIdx}>{tag}</span>
+                    <p className="project-row-desc">{project.description}</p>
+
+                    <div className="project-row-tech">
+                      {project.technologies.map((tech, idx) => (
+                        <React.Fragment key={tech}>
+                          <span className="tech-item">{tech}</span>
+                          {idx < project.technologies.length - 1 && (
+                            <span className="tech-sep">·</span>
+                          )}
+                        </React.Fragment>
                       ))}
                     </div>
+                  </div>
 
-                    <div className="project-links">
+                  {/* View Project Action */}
+                  <div className="project-row-action">
+                    {project.link ? (
                       <a
-                        href={project.liveLink}
-                        target={project.liveLink.startsWith('http') ? '_blank' : '_self'}
-                        rel={project.liveLink.startsWith('http') ? 'noopener noreferrer' : undefined}
+                        href={project.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="view-project-link"
                       >
-                        <i className="fa-solid fa-arrow-up-right-from-square"></i>
-                        Live Demo
+                        <span className="view-project-text">
+                          VIEW
+                          <br />
+                          PROJECT
+                        </span>
+                        <svg
+                          className="view-project-arrow"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          aria-hidden="true"
+                        >
+                          <line x1="7" y1="17" x2="17" y2="7"></line>
+                          <polyline points="7 7 17 7 17 17"></polyline>
+                        </svg>
                       </a>
-
-                      <a
-                        href={project.githubLink.startsWith('http') ? project.githubLink : `#${project.githubLink}`}
-                        target={project.githubLink.startsWith('http') ? '_blank' : '_self'}
-                        rel={project.githubLink.startsWith('http') ? 'noopener noreferrer' : undefined}
-                      >
-                        <i className="fa-brands fa-github"></i>
-                        GitHub
-                      </a>
-                    </div>
+                    ) : (
+                      <div className="view-project-link view-project-pending" aria-label="Project details view">
+                        <span className="view-project-text">
+                          VIEW
+                          <br />
+                          PROJECT
+                        </span>
+                        <svg
+                          className="view-project-arrow"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          aria-hidden="true"
+                        >
+                          <line x1="7" y1="17" x2="17" y2="7"></line>
+                          <polyline points="7 7 17 7 17 17"></polyline>
+                        </svg>
+                      </div>
+                    )}
                   </div>
                 </article>
               ))}
             </div>
           </div>
-
-          <button
-            className="slider-btn next-btn"
-            onClick={nextSlide}
-            aria-label="Next Project"
-          >
-            <i className="fa-solid fa-chevron-right"></i>
-          </button>
         </div>
 
-        {/* Dots */}
-        <div className="slider-dots">
-          {Array.from({ length: totalCards }).map((_, dotIdx) => (
-            <button
-              key={dotIdx}
-              className={`dot ${dotIdx === (currentIndex % totalCards) ? 'active' : ''}`}
-              onClick={() => setCurrentIndex(Math.min(dotIdx, maxIndex))}
-              aria-label={`Go to slide ${dotIdx + 1}`}
-            ></button>
-          ))}
+        {/* Section Editorial Footer */}
+        <div className="projects-bottom-editorial">
+          <span className="projects-bottom-left">IDEAS TO PRODUCTS.</span>
+          <div className="projects-bottom-line" aria-hidden="true" />
+          <span className="projects-bottom-right">BUILDING A BETTER TOMORROW.</span>
         </div>
       </div>
     </section>

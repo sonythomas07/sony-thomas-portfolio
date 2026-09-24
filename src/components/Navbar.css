@@ -7,10 +7,21 @@
   left: 0;
   width: 100%;
   z-index: 1000;
-  background: rgba(7, 9, 14, 0.88);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  border-bottom: 1px solid var(--border);
+  background: rgba(7, 9, 14, 0.60);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: none;
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: auto;
+  transition: transform 2s cubic-bezier(0.16, 1, 0.3, 1), opacity 2s cubic-bezier(0.16, 1, 0.3, 1);
+  animation: navbarFadeIn 1.5s cubic-bezier(0.16, 1, 0.3, 1) 0s;
+}
+
+.header.header--hidden {
+  transform: translateY(-100%) !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
 }
 
 .navbar {
@@ -233,3 +244,26 @@
     top: 64px;
   }
 }
+
+/* ==================================================
+   NAVBAR ENTRANCE ANIMATION (One-time on initial load)
+================================================== */
+@keyframes navbarFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .header {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+

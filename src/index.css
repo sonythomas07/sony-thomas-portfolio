@@ -112,7 +112,6 @@ h4 {
 .section {
   position: relative;
   overflow: hidden;
-  scroll-margin-top: 100px;
 }
 
 /* ==================================================
@@ -129,17 +128,11 @@ h4 {
   .container {
     padding: 0 20px;
   }
-  .section {
-    scroll-margin-top: 90px;
-  }
 }
 
 @media (max-width: 768px) {
   .container {
     padding: 0 18px;
-  }
-  .section {
-    scroll-margin-top: 80px;
   }
 }
 

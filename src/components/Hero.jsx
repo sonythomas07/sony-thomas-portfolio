@@ -43,7 +43,7 @@ export default function Hero() {
             </a>
 
             <a
-              href="https://linkedin.com/in/sony-thomas-1856913a0"
+              href="https://www.linkedin.com/in/sony-thomas-dev"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="LinkedIn"

@@ -4,13 +4,18 @@ import './Navbar.css';
 export default function Navbar() {
   const [activeSection, setActiveSection] = useState('home');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [navVisible, setNavVisible] = useState(true);
+  const lastScrollY = useRef(0);
   const menuBtnRef = useRef(null);
   const mobileMenuRef = useRef(null);
 
   useEffect(() => {
     const handleScroll = () => {
+      const currentScrollY = window.scrollY || document.documentElement.scrollTop;
+
+      // Section tracking for active links
       const sections = document.querySelectorAll('section[id]');
-      const scrollPosition = window.scrollY + 150;
+      const scrollPosition = currentScrollY + 150;
 
       sections.forEach((section) => {
         const sectionTop = section.offsetTop;
@@ -24,6 +29,20 @@ export default function Navbar() {
           setActiveSection(sectionId);
         }
       });
+
+      // Scroll direction detection
+      if (currentScrollY <= 5) {
+        // At top of page: always visible
+        setNavVisible(true);
+      } else if (currentScrollY > lastScrollY.current) {
+        // Scrolling DOWN: hide navbar
+        setNavVisible(false);
+      } else if (currentScrollY < lastScrollY.current) {
+        // Scrolling UP: show navbar
+        setNavVisible(true);
+      }
+
+      lastScrollY.current = Math.max(0, currentScrollY);
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
@@ -58,7 +77,7 @@ export default function Navbar() {
   };
 
   return (
-    <header className="header">
+    <header className={`header ${!navVisible ? 'header--hidden' : ''}`}>
       <nav className="navbar container">
         <a href="#home" className="logo">
           Sony<span>.</span>
@@ -83,8 +102,8 @@ export default function Navbar() {
           </li>
           <li>
             <a
-              href="#about"
-              className={activeSection === 'about' ? 'active' : ''}
+              href="#skills"
+              className={activeSection === 'skills' ? 'active' : ''}
             >
               Skills
             </a>
@@ -141,7 +160,7 @@ export default function Navbar() {
           <a href="#about" onClick={closeMobileMenu}>
             About
           </a>
-          <a href="#about" onClick={closeMobileMenu}>
+          <a href="#skills" onClick={closeMobileMenu}>
             Skills
           </a>
           <a href="#projects" onClick={closeMobileMenu}>
