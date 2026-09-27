@@ -1,4 +1,4 @@
-/* ==================================================
+﻿/* ==================================================
    GLOBAL VARIABLES
 ================================================== */
 :root {
@@ -39,6 +39,7 @@
 
 html {
   scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
@@ -48,6 +49,7 @@ body {
   font-family: 'Poppins', sans-serif;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 img {
@@ -139,5 +141,85 @@ h4 {
 @media (max-width: 576px) {
   .container {
     padding: 0 16px;
+  }
+}
+
+@media (max-width: 380px) {
+  .container {
+    padding: 0 14px;
+  }
+}
+
+/* ==================================================
+   SCROLL REVEAL & SCROLL OUT ANIMATIONS
+================================================== */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+/* In-View (Visible in viewport) */
+.reveal.is-in-view,
+.reveal.is-revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Scrolled-Out */
+.reveal.is-scrolled-out {
+  opacity: 0;
+  transform: translateY(-20px);
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: 0s !important;
+}
+
+/* Stagger Delays */
+.reveal.is-in-view.reveal-delay-1,
+.reveal.is-revealed.reveal-delay-1 {
+  transition-delay: 0.08s;
+}
+
+.reveal.is-in-view.reveal-delay-2,
+.reveal.is-revealed.reveal-delay-2 {
+  transition-delay: 0.16s;
+}
+
+.reveal.is-in-view.reveal-delay-3,
+.reveal.is-revealed.reveal-delay-3 {
+  transition-delay: 0.24s;
+}
+
+.reveal.is-in-view.reveal-delay-4,
+.reveal.is-revealed.reveal-delay-4 {
+  transition-delay: 0.32s;
+}
+
+/* Hero Section Scroll-Out */
+.hero-reveal {
+  transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.hero-reveal.is-scrolled-out {
+  opacity: 0;
+  transform: translateY(-20px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal,
+  .reveal.is-in-view,
+  .reveal.is-revealed,
+  .reveal.is-scrolled-out,
+  .hero-reveal,
+  .hero-reveal.is-scrolled-out {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+    transition-delay: 0s !important;
   }
 }

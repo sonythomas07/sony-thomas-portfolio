@@ -1,11 +1,13 @@
-/* ==================================================
-   MINIMAL FOOTER (Quiet Ending)
+﻿/* ==================================================
+   MINIMAL FOOTER (Sony Thomas Portfolio)
 ================================================== */
 .footer {
   width: 100%;
   background-color: var(--bg, #07090e);
   border-top: 1px solid rgba(255, 255, 255, 0.05);
-  padding: 26px 0;
+  padding: 24px 0;
+  position: relative;
+  z-index: 10;
 }
 
 .footer-container {
@@ -15,70 +17,121 @@
   gap: 24px;
 }
 
-/* Typography & Layout Columns */
-.footer-left,
-.footer-center,
-.footer-right {
+/* Left: Author Name */
+.footer-left {
+  display: flex;
+  align-items: center;
+}
+
+.footer-name {
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.88rem;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+  white-space: nowrap;
+}
+
+.footer-name-first {
+  color: #F8FAFC;
+}
+
+.footer-name-last {
+  background: linear-gradient(135deg, #C084FC 0%, #A855F7 50%, #7E22CE 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline-block;
+}
+
+/* Center: Copyright */
+.footer-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.footer-copyright {
   font-family: 'Poppins', sans-serif;
   font-size: 0.82rem;
   font-weight: 400;
-  color: rgba(255, 255, 255, 0.45);
-  display: flex;
-  align-items: center;
-}
-
-.footer-left span {
-  color: rgba(255, 255, 255, 0.45);
+  color: rgba(255, 255, 255, 0.4);
   letter-spacing: 0.2px;
 }
 
-.footer-center span {
-  color: rgba(255, 255, 255, 0.4);
-  letter-spacing: 0.3px;
-}
-
+/* Right: Social Icons */
 .footer-right {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 16px;
 }
 
-.footer-link {
-  color: rgba(255, 255, 255, 0.45);
+.footer-icon-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255, 255, 255, 0.68);
   text-decoration: none;
-  letter-spacing: 0.2px;
-  transition: color 0.2s ease;
+  transition: color 0.25s ease, transform 0.25s ease;
+  padding: 4px;
+  border-radius: 4px;
 }
 
-.footer-link:hover {
-  color: #ffffff;
+.footer-icon-link:hover {
+  color: #a855f7;
+  transform: translateY(-1.5px);
 }
 
-.footer-sep {
-  color: var(--primary, #5b8cff);
-  opacity: 0.45;
-  font-size: 0.85rem;
+.footer-svg {
+  width: 19px;
+  height: 19px;
+  display: block;
 }
 
-/* --------------------------------------------------
-   Responsive Breakpoints
--------------------------------------------------- */
+/* ==================================================
+   RESPONSIVE BREAKPOINTS
+================================================== */
 @media (max-width: 768px) {
   .footer {
-    padding: 22px 0;
+    padding: 24px 0 28px;
   }
 
   .footer-container {
     flex-direction: column;
     align-items: center;
     text-align: center;
-    gap: 10px;
+    gap: 14px;
   }
 
   .footer-left,
   .footer-center,
   .footer-right {
-    font-size: 0.78rem;
     justify-content: center;
+  }
+
+  .footer-name {
+    font-size: 0.85rem;
+  }
+
+  .footer-copyright {
+    font-size: 0.78rem;
+  }
+
+  .footer-right {
+    gap: 18px;
+    margin-top: 2px;
+  }
+
+  .footer-svg {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+@media (max-width: 380px) {
+  .footer-name {
+    font-size: 0.8rem;
+  }
+
+  .footer-copyright {
+    font-size: 0.74rem;
   }
 }
