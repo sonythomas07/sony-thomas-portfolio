@@ -70,6 +70,11 @@ const icons = {
       <path fill="#05998B" d="M12 0C5.37 0 0 5.37 0 12s5.37 12 12 12 12-5.37 12-12S18.63 0 12 0zm-.7 18.7l-4.5-8.2h3.7V5.3l4.5 8.2h-3.7v5.2z" />
     </svg>
   ),
+  flask: (
+    <svg viewBox="0 0 24 24" className="tech-icon-svg" aria-hidden="true">
+      <path fill="#FFFFFF" d="M10.773 2.878c-.013 1.434.322 4.624.445 5.734l-8.558 3.83c-.56-.959-.98-2.304-1.237-3.38l-.06.027c-.205.09-.406.053-.494-.088l-.011-.018-.82-1.506c-.058-.105-.05-.252.024-.392a.78.78 0 0 1 .358-.331l9.824-4.207c.146-.064.299-.063.4.004.106.062.127.128.13.327Zm.68 7c.523 1.97.675 2.412.832 2.818l-7.263 3.7a19.35 19.35 0 0 1-1.81-2.83l8.24-3.689Zm12.432 8.786h.003c.283.402-.047.657-.153.698l-.947.37c.037.125.035.319-.217.414l-.736.287c-.229.09-.398-.059-.42-.2l-.025-.125c-4.427 1.784-7.94 1.685-10.696.647-1.981-.745-3.576-1.983-4.846-3.379l6.948-3.54c.721 1.431 1.586 2.454 2.509 3.178 2.086 1.638 4.415 1.712 5.793 1.563l-.047-.233c-.015-.077.007-.135.086-.165l.734-.288a.302.302 0 0 1 .342.086l.748-.288a.306.306 0 0 1 .341.086l.583.89Z" />
+    </svg>
+  ),
   sqlalchemy: (
     <svg viewBox="0 0 24 24" className="tech-icon-svg" aria-hidden="true">
       <path fill="#D71E00" d="M12 1.5L2 7.2v11.6L12 24.5l10-5.7V7.2L12 1.5zm0 3.2l7.2 4.1-7.2 4.1-7.2-4.1L12 4.7zm-8 5.4l7 4v7.7l-7-4V10.1zm9 11.7V14.1l7-4v7.7l-7 4z" />
@@ -226,7 +231,6 @@ const categories = [
       { name: 'HTML5', icon: icons.html5 },
       { name: 'CSS3', icon: icons.css3 },
       { name: 'Vite', icon: icons.vite },
-      { name: 'Recharts', icon: icons.recharts },
     ],
   },
   {
@@ -235,9 +239,8 @@ const categories = [
     technologies: [
       { name: 'Python', icon: icons.python },
       { name: 'FastAPI', icon: icons.fastapi },
-      { name: 'SQLAlchemy', icon: icons.sqlalchemy },
-      { name: 'MySQL', icon: icons.mysql },
-      { name: 'Uvicorn', icon: icons.uvicorn },
+      { name: 'Flask', icon: icons.flask },
+      { name: 'Node.js', icon: icons.nodejs },
     ],
   },
   {
@@ -258,22 +261,19 @@ const categories = [
       { name: 'Git', icon: icons.git },
       { name: 'GitHub', icon: icons.github },
       { name: 'Figma', icon: icons.figma },
-      { name: 'Postman', icon: icons.postman },
       { name: 'VS Code', icon: icons.vscode },
-      { name: 'Canva', icon: icons.canva },
+      { name: 'MySQL Workbench', icon: icons.mysqlworkbench },
+      { name: 'npm', icon: icons.npm },
     ],
   },
 ];
 
 // Bottom Strip Other Technologies
 const otherTechnologies = [
-  { name: 'Node.js', icon: icons.nodejs },
+  { name: 'Git', icon: icons.git },
+  { name: 'GitHub', icon: icons.github },
   { name: 'MySQL Workbench', icon: icons.mysqlworkbench },
-  { name: 'Linux', icon: icons.linux },
-  { name: 'Windows', icon: icons.windows },
-  { name: 'Jupyter', icon: icons.jupyter },
-  { name: 'Docker', icon: icons.docker },
-  { name: 'PostgreSQL', icon: icons.postgresql },
+  { name: 'VS Code', icon: icons.vscode },
   { name: 'npm', icon: icons.npm },
 ];
 
