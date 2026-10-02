@@ -6,6 +6,7 @@ export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [navVisible, setNavVisible] = useState(true);
   const lastScrollY = useRef(0);
+  const lowestScrollY = useRef(0);
   const menuBtnRef = useRef(null);
   const mobileMenuRef = useRef(null);
 
@@ -30,13 +31,22 @@ export default function Navbar() {
         }
       });
 
-      // Scroll direction detection
+      // Scroll direction and threshold detection
       if (currentScrollY <= 5) {
         setNavVisible(true);
+        lowestScrollY.current = currentScrollY;
       } else if (currentScrollY > lastScrollY.current) {
+        // User is scrolling down: hide navbar immediately and record lowest scroll depth
         setNavVisible(false);
+        lowestScrollY.current = currentScrollY;
       } else if (currentScrollY < lastScrollY.current) {
-        setNavVisible(true);
+        // User is scrolling up: reveal only after scrolling up by half the viewport height
+        const upScrollDistance = lowestScrollY.current - currentScrollY;
+        const revealThreshold = window.innerHeight * 0.5;
+
+        if (upScrollDistance >= revealThreshold) {
+          setNavVisible(true);
+        }
       }
 
       lastScrollY.current = Math.max(0, currentScrollY);

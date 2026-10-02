@@ -1,4 +1,4 @@
-﻿/* ==================================================
+/* ==================================================
    MINIMAL FOOTER (Sony Thomas Portfolio)
 ================================================== */
 .footer {
@@ -24,7 +24,7 @@
 }
 
 .footer-name {
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Sora', sans-serif;
   font-size: 0.88rem;
   font-weight: 500;
   letter-spacing: 0.3px;
@@ -50,7 +50,7 @@
 }
 
 .footer-copyright {
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Inter', sans-serif;
   font-size: 0.82rem;
   font-weight: 400;
   color: rgba(255, 255, 255, 0.4);

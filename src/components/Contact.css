@@ -5,7 +5,7 @@
 .contact {
   position: relative;
   background-color: #0A0713;
-  padding: 120px 0 110px;
+  padding: 40px 0 56px;
   overflow: hidden;
 }
 
@@ -68,7 +68,7 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  font-family: 'Space Grotesk', sans-serif;
+  font-family: 'Sora', sans-serif;
   font-size: 0.95rem;
   font-weight: 700;
   letter-spacing: 2px;
@@ -101,7 +101,7 @@
 }
 
 .contact-main-headline {
-  font-family: 'Space Grotesk', sans-serif;
+  font-family: 'Sora', sans-serif;
   font-size: 3.4rem;
   font-weight: 800;
   line-height: 1.05;
@@ -203,7 +203,7 @@
 }
 
 .contact-card-title {
-  font-family: 'Space Grotesk', sans-serif;
+  font-family: 'Sora', sans-serif;
   font-size: 0.92rem;
   font-weight: 700;
   color: #F8FAFC;
@@ -286,7 +286,7 @@
 }
 
 .contact-field-label {
-  font-family: 'Space Grotesk', sans-serif;
+  font-family: 'Inter', sans-serif;
   font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 1.5px;
@@ -352,7 +352,7 @@
   background: linear-gradient(135deg, rgba(168, 85, 247, 0.32) 0%, rgba(126, 34, 206, 0.55) 100%);
   border: 1px solid rgba(192, 132, 252, 0.45);
   color: #FFFFFF;
-  font-family: 'Space Grotesk', sans-serif;
+  font-family: 'Inter', sans-serif;
   font-size: 0.86rem;
   font-weight: 700;
   letter-spacing: 1.2px;
@@ -415,7 +415,7 @@
 }
 
 .contact-status-title {
-  font-family: 'Space Grotesk', sans-serif;
+  font-family: 'Sora', sans-serif;
   font-size: 1.35rem;
   font-weight: 700;
   letter-spacing: 0.5px;
@@ -439,7 +439,7 @@
   background: rgba(255, 255, 255, 0.03);
   border: 1px solid rgba(168, 85, 247, 0.35);
   color: #C084FC;
-  font-family: 'Space Grotesk', sans-serif;
+  font-family: 'Inter', sans-serif;
   font-size: 0.82rem;
   font-weight: 700;
   letter-spacing: 1px;
@@ -473,7 +473,7 @@
 
 @media (max-width: 900px) {
   .contact {
-    padding: 90px 0 80px;
+    padding: 35px 0 45px;
   }
   .contact-main-grid {
     grid-template-columns: 1fr;
@@ -492,7 +492,7 @@
 
 @media (max-width: 768px) {
   .contact {
-    padding: 70px 0 60px;
+    padding: 30px 0 40px;
   }
   .contact-container {
     gap: 36px;

@@ -1,11 +1,11 @@
-﻿/* ==================================================
+/* ==================================================
    ABOUT SECTION STYLING (DARK / EDITORIAL / PURPLE TECH)
 ================================================== */
 .about {
   position: relative;
   background-color: #07090E;
   color: #ffffff;
-  padding: 120px 0;
+  padding: 40px 0;
   overflow: hidden;
   border-top: 1px solid rgba(168, 85, 247, 0.1);
 }
@@ -36,7 +36,7 @@
   align-items: center;
   gap: 8px;
   margin-bottom: 36px;
-  font-family: 'Space Grotesk', sans-serif;
+  font-family: 'Sora', sans-serif;
   font-size: 0.88rem;
   font-weight: 700;
   letter-spacing: 2px;
@@ -107,7 +107,7 @@
 }
 
 .intro-lead {
-  font-family: 'Space Grotesk', sans-serif;
+  font-family: 'Inter', sans-serif;
   font-size: 1.18rem;
   font-weight: 500;
   line-height: 1.55;
@@ -116,7 +116,7 @@
 }
 
 .intro-body {
-  font-family: 'Space Grotesk', sans-serif;
+  font-family: 'Inter', sans-serif;
   font-size: 0.98rem;
   font-weight: 400;
   line-height: 1.7;
@@ -413,7 +413,7 @@
 
 @media (max-width: 992px) {
   .about {
-    padding: 90px 0;
+    padding: 35px 0;
   }
 
   .about-main-layout {
@@ -436,7 +436,7 @@
 
 @media (max-width: 768px) {
   .about {
-    padding: 70px 0;
+    padding: 30px 0;
   }
 
   .about-stats-grid {

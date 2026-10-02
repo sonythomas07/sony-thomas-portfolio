@@ -1,4 +1,4 @@
-﻿/* ==================================================
+/* ==================================================
    GLOBAL VARIABLES
 ================================================== */
 :root {
@@ -46,7 +46,7 @@ body {
   min-height: 100vh;
   background: var(--bg);
   color: var(--white);
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Inter', sans-serif;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

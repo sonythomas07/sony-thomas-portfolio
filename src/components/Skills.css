@@ -4,7 +4,7 @@
 .skills {
   position: relative;
   background-color: #0A0713;
-  padding: 120px 0;
+  padding: 40px 0;
   overflow: hidden;
 }
 
@@ -46,7 +46,7 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  font-family: 'Space Grotesk', sans-serif;
+  font-family: 'Sora', sans-serif;
   font-size: 0.95rem;
   font-weight: 700;
   letter-spacing: 2px;
@@ -64,7 +64,7 @@
   display: flex;
   align-items: center;
   gap: 12px;
-  font-family: 'Space Grotesk', sans-serif;
+  font-family: 'Inter', sans-serif;
   font-size: 0.78rem;
   font-weight: 600;
   letter-spacing: 2.5px;
@@ -88,7 +88,7 @@
 }
 
 .skills-main-headline {
-  font-family: 'Space Grotesk', sans-serif;
+  font-family: 'Sora', sans-serif;
   font-size: 3.4rem;
   font-weight: 800;
   line-height: 1.05;
@@ -222,7 +222,7 @@
   border: 1px solid rgba(168, 85, 247, 0.2);
   border-radius: 8px;
   padding: 8px 18px;
-  font-family: 'Space Grotesk', sans-serif;
+  font-family: 'Inter', sans-serif;
   font-size: 0.88rem;
   font-weight: 700;
   letter-spacing: 0.8px;
@@ -308,7 +308,7 @@
 }
 
 .tech-tile-name {
-  font-family: 'Space Grotesk', sans-serif;
+  font-family: 'Inter', sans-serif;
   font-size: 0.92rem;
   font-weight: 600;
   color: #F1F5F9;
@@ -338,7 +338,7 @@
 }
 
 .bottom-strip-tag {
-  font-family: 'Space Grotesk', sans-serif;
+  font-family: 'Sora', sans-serif;
   font-size: 0.82rem;
   font-weight: 700;
   letter-spacing: 1.5px;
@@ -384,7 +384,7 @@
 }
 
 .bottom-tech-name {
-  font-family: 'Space Grotesk', sans-serif;
+  font-family: 'Inter', sans-serif;
   font-size: 0.84rem;
   font-weight: 600;
   color: rgba(255, 255, 255, 0.85);
@@ -424,7 +424,7 @@
 
 @media (max-width: 992px) {
   .skills {
-    padding: 90px 0;
+    padding: 35px 0;
   }
 
   .skills-main-headline {
@@ -434,7 +434,7 @@
 
 @media (max-width: 768px) {
   .skills {
-    padding: 70px 0;
+    padding: 30px 0;
   }
 
   .skills-container {
