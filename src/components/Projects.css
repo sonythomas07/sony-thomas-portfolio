@@ -281,6 +281,14 @@
   transform: translate(2px, -2px);
 }
 
+.project-action-link.link-disabled {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px dashed rgba(168, 85, 247, 0.2);
+  color: #64748B;
+  cursor: default;
+  user-select: none;
+}
+
 /* RESPONSIVE */
 @media (max-width: 1094px) {
   .projects-orbit-cards-container { height: 550px; }

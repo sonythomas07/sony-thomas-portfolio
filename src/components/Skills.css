@@ -149,8 +149,8 @@
   max-width: 430px;
   height: auto;
   object-fit: contain;
-  opacity: 0.62;
-  filter: drop-shadow(0 8px 24px rgba(0, 0, 0, 0.4));
+  opacity: 0.92;
+  filter: brightness(1.12) contrast(1.05) drop-shadow(0 8px 24px rgba(0, 0, 0, 0.4));
   display: block;
 }
 
@@ -245,24 +245,26 @@
 }
 
 /* --------------------------------------------------
-   3x2 TECHNOLOGY TILES GRID
+   3x2 TECHNOLOGY TILES GRID (PURE FADE TRANSITION)
 -------------------------------------------------- */
 .showcase-tech-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 16px;
-  animation: techGridFadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  min-height: 236px;
+  opacity: 1;
+  transition: opacity 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity;
 }
 
-@keyframes techGridFadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(6px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.showcase-tech-grid.is-fading-out {
+  opacity: 0;
+  transition: opacity 0.2s ease-out;
+}
+
+.showcase-tech-grid.is-fading-in {
+  opacity: 1;
+  transition: opacity 0.28s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .tech-tile-card {
@@ -316,87 +318,6 @@
   letter-spacing: 0.3px;
 }
 
-/* --------------------------------------------------
-   BOTTOM PANEL: OTHER TOOLS & TECHNOLOGIES STRIP
--------------------------------------------------- */
-.skills-bottom-strip {
-  background: rgba(14, 11, 24, 0.5);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(168, 85, 247, 0.16);
-  border-radius: 14px;
-  padding: 16px 24px;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.3);
-}
-
-.bottom-strip-header {
-  display: flex;
-  align-items: center;
-}
-
-.bottom-strip-tag {
-  font-family: 'Sora', sans-serif;
-  font-size: 0.82rem;
-  font-weight: 700;
-  letter-spacing: 1.5px;
-  color: #C084FC;
-  text-transform: uppercase;
-}
-
-.bottom-strip-grid {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  flex-wrap: wrap;
-  gap: 70px;
-}
-
-.bottom-tech-item {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 6px 10px;
-  border-radius: 8px;
-  transition: all 0.2s ease;
-}
-
-.bottom-tech-item:hover {
-  background: rgba(168, 85, 247, 0.1);
-  transform: translateY(-2px);
-}
-
-.bottom-tech-icon {
-  width: 20px;
-  height: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-
-.bottom-tech-icon .tech-icon-svg {
-  width: 18px;
-  height: 18px;
-}
-
-.bottom-tech-name {
-  font-family: 'Inter', sans-serif;
-  font-size: 0.84rem;
-  font-weight: 600;
-  color: rgba(255, 255, 255, 0.85);
-  white-space: nowrap;
-}
-
-.bottom-strip-sep {
-  width: 1px;
-  height: 20px;
-  background: rgba(168, 85, 247, 0.2);
-}
-
 /* ==================================================
    RESPONSIVE DESIGN BREAKPOINTS
 ================================================== */
@@ -409,16 +330,6 @@
   .skills-artwork-wrap {
     max-width: 380px;
     margin: 0 auto;
-  }
-
-  .bottom-strip-sep {
-    display: none;
-  }
-
-  .bottom-strip-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 12px;
   }
 }
 
@@ -463,11 +374,6 @@
   .skills-showcase-panel {
     padding: 22px 18px;
   }
-
-  .bottom-strip-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 8px;
-  }
 }
 
 @media (max-width: 480px) {
@@ -506,8 +412,15 @@
   .tech-tile-name {
     font-size: 0.82rem;
   }
+}
 
-  .bottom-strip-grid {
-    grid-template-columns: 1fr;
+/* Respect user reduced-motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .showcase-tech-grid,
+  .showcase-tech-grid.is-fading-out,
+  .showcase-tech-grid.is-fading-in {
+    transition: none !important;
+    animation: none !important;
+    opacity: 1 !important;
   }
 }

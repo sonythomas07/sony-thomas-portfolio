@@ -39,14 +39,7 @@
 
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 88px;
   -webkit-text-size-adjust: 100%;
-}
-
-@media (max-width: 860px) {
-  html {
-    scroll-padding-top: 78px;
-  }
 }
 
 body {

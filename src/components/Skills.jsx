@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import skillImg from '../assets/skill.png';
 import './Skills.css';
 
@@ -49,14 +49,6 @@ const icons = {
       <path fill="#FFD62E" d="M14.6 2l-6.7 1.1c-.4.1-.7.4-.6.8l.8 5.7c.1.4.5.7.9.6l2.3-.4-3.3 6.9c-.2.4.2.8.6.6l9.6-6c.4-.3.4-.9 0-1.1l-3.4-1.7 1.4-5.2c.1-.4-.2-.8-.6-.7z" />
     </svg>
   ),
-  recharts: (
-    <svg viewBox="0 0 24 24" className="tech-icon-svg" fill="none" aria-hidden="true">
-      <rect x="3" y="13" width="4" height="8" rx="1.5" fill="#22C55E" />
-      <rect x="10" y="8" width="4" height="13" rx="1.5" fill="#3B82F6" />
-      <rect x="17" y="3" width="4" height="18" rx="1.5" fill="#A855F7" />
-      <path d="M4 12l7-5 7-4 3 2.5" stroke="#C084FC" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  ),
 
   // Backend
   python: (
@@ -73,25 +65,6 @@ const icons = {
   flask: (
     <svg viewBox="0 0 24 24" className="tech-icon-svg" aria-hidden="true">
       <path fill="#FFFFFF" d="M10.773 2.878c-.013 1.434.322 4.624.445 5.734l-8.558 3.83c-.56-.959-.98-2.304-1.237-3.38l-.06.027c-.205.09-.406.053-.494-.088l-.011-.018-.82-1.506c-.058-.105-.05-.252.024-.392a.78.78 0 0 1 .358-.331l9.824-4.207c.146-.064.299-.063.4.004.106.062.127.128.13.327Zm.68 7c.523 1.97.675 2.412.832 2.818l-7.263 3.7a19.35 19.35 0 0 1-1.81-2.83l8.24-3.689Zm12.432 8.786h.003c.283.402-.047.657-.153.698l-.947.37c.037.125.035.319-.217.414l-.736.287c-.229.09-.398-.059-.42-.2l-.025-.125c-4.427 1.784-7.94 1.685-10.696.647-1.981-.745-3.576-1.983-4.846-3.379l6.948-3.54c.721 1.431 1.586 2.454 2.509 3.178 2.086 1.638 4.415 1.712 5.793 1.563l-.047-.233c-.015-.077.007-.135.086-.165l.734-.288a.302.302 0 0 1 .342.086l.748-.288a.306.306 0 0 1 .341.086l.583.89Z" />
-    </svg>
-  ),
-  sqlalchemy: (
-    <svg viewBox="0 0 24 24" className="tech-icon-svg" aria-hidden="true">
-      <path fill="#D71E00" d="M12 1.5L2 7.2v11.6L12 24.5l10-5.7V7.2L12 1.5zm0 3.2l7.2 4.1-7.2 4.1-7.2-4.1L12 4.7zm-8 5.4l7 4v7.7l-7-4V10.1zm9 11.7V14.1l7-4v7.7l-7 4z" />
-      <circle cx="12" cy="12.8" r="2" fill="#FFA500" />
-    </svg>
-  ),
-  mysql: (
-    <svg viewBox="0 0 24 24" className="tech-icon-svg" aria-hidden="true">
-      <path fill="#00758F" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm3.8 15.2c-1.4 0-2.6-1.1-2.6-2.6s1.2-2.6 2.6-2.6 2.6 1.2 2.6 2.6-1.2 2.6-2.6 2.6zm-7.6-2.2c-.9 0-1.6-.7-1.6-1.6s.7-1.6 1.6-1.6 1.6.7 1.6 1.6-.7 1.6-1.6 1.6z" />
-      <path fill="#F29111" d="M14.5 9.5c-.8 0-1.5.7-1.5 1.5s.7 1.5 1.5 1.5 1.5-.7 1.5-1.5-.7-1.5-1.5-1.5z" />
-    </svg>
-  ),
-  uvicorn: (
-    <svg viewBox="0 0 24 24" className="tech-icon-svg" fill="none" aria-hidden="true">
-      <circle cx="12" cy="12" r="10.5" stroke="#FF4088" strokeWidth="1.8" />
-      <path d="M7 9v5c0 2.76 2.24 5 5 5s5-2.24 5-5V9" stroke="#FF4088" strokeWidth="2" strokeLinecap="round" />
-      <path d="M12 4.5L9.5 9.5h5L12 4.5z" fill="#FF4088" />
     </svg>
   ),
 
@@ -182,37 +155,6 @@ const icons = {
       <path fill="#F29111" d="M6 8.5h2v1H6zm4 0h2v1h-2z" />
     </svg>
   ),
-  linux: (
-    <svg viewBox="0 0 24 24" className="tech-icon-svg" aria-hidden="true">
-      <path fill="#FCC624" d="M12 2c-3.3 0-6 2.7-6 6 0 1.8.7 3.5 2 4.7-.6 1.8-2 3.3-2 5.3 0 2.2 3.6 4 8 4s8-1.8 8-4c0-2-1.4-3.5-2-5.3 1.3-1.2 2-2.9 2-4.7 0-3.3-2.7-6-6-6z" />
-      <ellipse cx="9.5" cy="7.5" rx="1" ry="1.5" fill="#000000" />
-      <ellipse cx="14.5" cy="7.5" rx="1" ry="1.5" fill="#000000" />
-      <path d="M10.5 9.5c0 1 1.5 1.5 1.5 1.5s1.5-.5 1.5-1.5c0-.5-.7-.8-1.5-.8s-1.5.3-1.5.8z" fill="#FF8000" />
-    </svg>
-  ),
-  windows: (
-    <svg viewBox="0 0 24 24" className="tech-icon-svg" aria-hidden="true">
-      <path fill="#0078D6" d="M0 3.4l9.8-1.3v9.3H0V3.4zm0 8.7h9.8v9.3L0 20.1v-8zm10.7-10.2L24 0v11.4H10.7V1.9zm0 10.2H24V24l-13.3-1.9v-10.2z" />
-    </svg>
-  ),
-  jupyter: (
-    <svg viewBox="0 0 24 24" className="tech-icon-svg" aria-hidden="true">
-      <path fill="#F37626" d="M12 3.5c-4.1 0-7.6 2-9.4 5.2 1.3-.7 2.8-1.1 4.4-1.1 4.4 0 8 3.6 8 8 0 1.6-.5 3.1-1.3 4.4 3.7-1.4 6.3-5 6.3-9.1 0-4.1-3.6-7.4-8-7.4z" />
-      <circle cx="5" cy="18" r="2" fill="#767677" />
-      <circle cx="19" cy="6" r="1.5" fill="#767677" />
-    </svg>
-  ),
-  docker: (
-    <svg viewBox="0 0 24 24" className="tech-icon-svg" aria-hidden="true">
-      <path fill="#2496ED" d="M13 3.5h2.5V6H13zm-3 0h2.5V6H10zm6 0h2.5V6H16zm-9 3h2.5V9H7zm3 0h2.5V9H10zm3 0h2.5V9H13zm3 0h2.5V9H16zm-9 3h2.5v2.5H7zm3 0h2.5v2.5H10zm3 0h2.5v2.5H13zm3 0h2.5v2.5H16z" />
-      <path fill="#2496ED" d="M23.9 11.5c-.3-.2-1.4-.7-2.9-.2-.3-.8-1-1.3-1.7-1.6-.2 1.5-.9 2.5-2.2 3.1H1c-.6 0-1 .4-1 1 0 3.3 1.8 6.4 4.8 7.9C7.6 23 11 23.5 14.5 22.8c4.3-.9 7.6-4.2 8.7-8.5.6 0 1.3-.3 1.6-.8.4-.5.3-1.2-.9-2z" />
-    </svg>
-  ),
-  postgresql: (
-    <svg viewBox="0 0 24 24" className="tech-icon-svg" aria-hidden="true">
-      <path fill="#4169E1" d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm5 14c-1.1 0-2-.9-2-2 0-.5.2-1 .5-1.4-.7-.4-1.6-.6-2.5-.6-2.8 0-5 2.2-5 5H6c0-3.9 3.1-7 7-7 1.3 0 2.5.4 3.5 1 .3-.6.9-1 1.5-1 1.1 0 2 .9 2 2s-.9 2-2 2z" />
-    </svg>
-  ),
   npm: (
     <svg viewBox="0 0 24 24" className="tech-icon-svg" aria-hidden="true">
       <path fill="#CB3837" d="M0 0v24h24V0H0zm20.8 20.8h-4.2V7.2h-4.2v13.6H3.2V3.2h17.6v17.6z" />
@@ -268,19 +210,49 @@ const categories = [
   },
 ];
 
-// Bottom Strip Other Technologies
-const otherTechnologies = [
-  { name: 'Git', icon: icons.git },
-  { name: 'GitHub', icon: icons.github },
-  { name: 'MySQL Workbench', icon: icons.mysqlworkbench },
-  { name: 'VS Code', icon: icons.vscode },
-  { name: 'npm', icon: icons.npm },
-];
-
 export default function Skills() {
   const [activeCategory, setActiveCategory] = useState('frontend');
+  const [displayedCategory, setDisplayedCategory] = useState('frontend');
+  const [isFading, setIsFading] = useState(false);
+  const timerRef = useRef(null);
 
-  const currentCategory = categories.find((c) => c.id === activeCategory) || categories[0];
+  const handleCategoryChange = (newCategoryId) => {
+    if (newCategoryId === activeCategory) return;
+    setActiveCategory(newCategoryId);
+
+    const prefersReducedMotion =
+      typeof window !== 'undefined' &&
+      (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false);
+
+    if (prefersReducedMotion) {
+      setDisplayedCategory(newCategoryId);
+      setIsFading(false);
+      return;
+    }
+
+    if (timerRef.current) {
+      clearTimeout(timerRef.current);
+    }
+
+    // Phase 1: Smooth fade out (200ms)
+    setIsFading(true);
+
+    // Phase 2: Switch category data and smooth fade in (280ms)
+    timerRef.current = setTimeout(() => {
+      setDisplayedCategory(newCategoryId);
+      setIsFading(false);
+      timerRef.current = null;
+    }, 220);
+  };
+
+  useEffect(() => {
+    return () => {
+      if (timerRef.current) clearTimeout(timerRef.current);
+    };
+  }, []);
+
+  const currentCategory =
+    categories.find((c) => c.id === displayedCategory) || categories[0];
 
   return (
     <section className="skills section" id="skills">
@@ -357,7 +329,7 @@ export default function Skills() {
                     role="tab"
                     aria-selected={isActive}
                     className={`showcase-tab-btn ${isActive ? 'active' : ''}`}
-                    onClick={() => setActiveCategory(cat.id)}
+                    onClick={() => handleCategoryChange(cat.id)}
                   >
                     {cat.name}
                   </button>
@@ -366,7 +338,10 @@ export default function Skills() {
             </div>
 
             {/* 3x2 Technology Tiles Grid */}
-            <div className="showcase-tech-grid" key={currentCategory.id}>
+            <div
+              className={`showcase-tech-grid ${isFading ? 'is-fading-out' : 'is-fading-in'}`}
+              aria-live="polite"
+            >
               {currentCategory.technologies.map((tech) => (
                 <div className="tech-tile-card" key={tech.name}>
                   <div className="tech-tile-icon-wrap" aria-hidden="true">
@@ -376,29 +351,6 @@ export default function Skills() {
                 </div>
               ))}
             </div>
-          </div>
-        </div>
-
-        {/* Bottom Panel: Other Tools & Technologies Strip */}
-        <div className="skills-bottom-strip reveal reveal-delay-3" aria-label="Other tools and technologies">
-          <div className="bottom-strip-header">
-            <span className="bottom-strip-tag">OTHER TOOLS & TECHNOLOGIES</span>
-          </div>
-
-          <div className="bottom-strip-grid">
-            {otherTechnologies.map((tech, index) => (
-              <React.Fragment key={tech.name}>
-                <div className="bottom-tech-item">
-                  <div className="bottom-tech-icon" aria-hidden="true">
-                    {tech.icon}
-                  </div>
-                  <span className="bottom-tech-name">{tech.name}</span>
-                </div>
-                {index < otherTechnologies.length - 1 && (
-                  <span className="bottom-strip-sep" aria-hidden="true" />
-                )}
-              </React.Fragment>
-            ))}
           </div>
         </div>
       </div>

@@ -57,8 +57,8 @@ const statCards = [
     ),
   },
   {
-    value: '3+',
-    label: 'Projects',
+    value: '2',
+    label: 'PROJECTS COMPLETED',
     icon: (
       <svg className="stat-card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
         <path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z" />
@@ -66,22 +66,22 @@ const statCards = [
     ),
   },
   {
-    value: '3+',
-    label: 'Technologies',
-    icon: (
-      <svg className="stat-card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-        <polyline points="16 18 22 12 16 6" />
-        <polyline points="8 6 2 12 8 18" />
-      </svg>
-    ),
-  },
-  {
-    value: '2+',
-    label: 'Internships',
+    value: '2',
+    label: 'INTERNSHIPS',
     icon: (
       <svg className="stat-card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
         <rect width="20" height="14" x="2" y="7" rx="2" />
         <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
+      </svg>
+    ),
+  },
+  {
+    value: '2',
+    label: 'ONGOING PROJECTS',
+    icon: (
+      <svg className="stat-card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+        <polyline points="16 18 22 12 16 6" />
+        <polyline points="8 6 2 12 8 18" />
       </svg>
     ),
   },

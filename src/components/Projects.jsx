@@ -1,56 +1,57 @@
-﻿import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import './Projects.css';
 import project1Img from '../assets/project_1.png';
+import comingSoonImg from '../assets/coming-soon.png';
 
 /* ─── Project data ───────────────────────────────────────────────────────── */
 const projectsData = [
   {
     number: '01',
+    title: 'PORTFOLIO',
+    concept: false,
+    description:
+      "Sony Thomas's personal developer portfolio showcasing engineering projects, interactive interfaces, and intelligent systems built with modern web technologies.",
+    technologies: ['React', 'JavaScript', 'Vite', 'CSS'],
+    image: null,
+    categoryTag: 'DEVELOPER PORTFOLIO',
+    liveDemo: null,
+    github: 'https://github.com/sonythomas07/sony-thomas-portfolio.git',
+  },
+  {
+    number: '02',
+    title: 'DASHFLOW — SAAS ADMIN DASHBOARD',
+    concept: false,
+    description:
+      'A desktop-focused SaaS admin dashboard designed with a UI/UX-first approach and built using HTML, CSS, and JavaScript. Features analytics, sales, product and customer management, notifications, and light/dark mode.',
+    technologies: ['HTML', 'CSS', 'JavaScript'],
+    image: project1Img,
+    categoryTag: 'SAAS ADMIN DASHBOARD',
+    liveDemo: 'https://sonythomas07.github.io/dashflow-saas-dashboard/',
+    github: 'https://github.com/sonythomas07/dashflow-saas-dashboard',
+  },
+  {
+    number: '03',
     title: 'HITS PROCTORING',
     concept: false,
     description:
       'An AI-powered interview proctoring system for HR environments, combining real-time candidate monitoring, behavioral analysis, and an administrative monitoring dashboard.',
     technologies: ['React', 'FastAPI', 'MySQL', 'YOLO', 'MediaPipe', 'OpenCV'],
-    image: project1Img,
+    image: comingSoonImg,
     categoryTag: 'AI PROCTORING SYSTEM',
-    liveDemo: 'https://hits-proctoring.vercel.app',
-    github: 'https://github.com/sonythomas07/hits-proctoring',
-  },
-  {
-    number: '02',
-    title: 'DO IT LATER',
-    concept: false,
-    description:
-      'A productivity and task management platform designed to help users organize tasks, postpone them intelligently, and stay focused on what matters.',
-    technologies: ['React', 'Vite', 'Recharts'],
-    image: null,
-    categoryTag: 'PRODUCTIVITY / TASK PLATFORM',
-    liveDemo: 'https://do-it-later.vercel.app',
-    github: 'https://github.com/sonythomas07/do-it-later',
-  },
-  {
-    number: '03',
-    title: 'RESTAURANT FOOD RECOMMENDATION',
-    concept: false,
-    description:
-      'A recommendation system designed to suggest restaurants and dishes based on user preferences, cuisine, and available recommendation data.',
-    technologies: ['Python', 'Machine Learning', 'Pandas', 'Scikit-learn'],
-    image: null,
-    categoryTag: 'RECOMMENDATION SYSTEM',
-    liveDemo: 'https://restaurant-food-recommendation.vercel.app',
-    github: 'https://github.com/sonythomas07/restaurant-recommendation-system',
+    liveDemo: null,
+    github: null,
   },
   {
     number: '04',
-    title: 'TRAVEL AGENT',
+    title: 'VISION HIRE',
     concept: true,
     description:
-      'A travel planning concept focused on helping users discover destinations, explore travel options, and plan personalized trips.',
-    technologies: ['React', 'UI/UX Design'],
-    image: null,
-    categoryTag: 'TRAVEL PLANNING CONCEPT',
-    liveDemo: 'https://travel-agent-concept.vercel.app',
-    github: 'https://github.com/sonythomas07/travel-agent-concept',
+      'An AI-powered video interview and recruitment assessment platform designed to analyze candidate responses, communication skills, and technical aptitude.',
+    technologies: ['React', 'Python', 'FastAPI', 'AI/ML'],
+    image: comingSoonImg,
+    categoryTag: 'AI RECRUITMENT CONCEPT',
+    liveDemo: null,
+    github: null,
   },
 ];
 
@@ -58,7 +59,6 @@ const projectsData = [
 const N                 = projectsData.length;
 const ROTATION_SPEED    = 1 / 10;   // full orbit every 10 s (steady & continuous)
 const TRANSITION_DUR    = 550;      // ms: single direct card click transition
-const FAST_SPIN_DUR     = 1450;     // ms: brisk, quick spin for full loop + 1 card
 const PAUSE_DUR         = 10000;    // ms: exactly 10s pause after reaching center
 
 /* ─── Responsive arc parameters ─────────────────────────────────────────── */
@@ -250,7 +250,7 @@ export default function Projects() {
     rafRef.current   = requestAnimationFrame(tick);
   }, [tick]);
 
-  /* ── Directional Side Click: Fast Spin (1 Full Loop + 1 Next/Previous Project) ── */
+  /* ── Directional Side Click: Single Card Next/Previous ── */
   const handleSideClick = useCallback((side) => {
     if (reducedRef.current) return;
 
@@ -267,15 +267,15 @@ export default function Projects() {
     // Determine currently centered project position
     const baseCenter = Math.round(posRef.current);
 
-    // RIGHT CLICK = 1 Full Forward Loop (N) + 1 NEXT Project (+1) = baseCenter + (N + 1)
-    // LEFT CLICK  = 1 Full Reverse Loop (-N) + 1 PREVIOUS Project (-1) = baseCenter - (N + 1)
-    const targetPos = side === 'right' ? baseCenter + (N + 1) : baseCenter - (N + 1);
+    // LEFT CLICK  = 1 NEXT Project (+1)
+    // RIGHT CLICK = 1 PREVIOUS Project (-1)
+    const targetPos = side === 'left' ? baseCenter + 1 : baseCenter - 1;
 
     transRef.current = {
       startPos:  posRef.current,
       targetPos: targetPos,
       startTime: performance.now(),
-      dur:       FAST_SPIN_DUR,
+      dur:       TRANSITION_DUR,
     };
     modeRef.current  = 'transitioning';
     lastTRef.current = null;
@@ -320,20 +320,20 @@ export default function Projects() {
           aria-roledescription="carousel"
           aria-label="Orbiting Projects Showcase"
         >
-          {/* Invisible Left Click Zone: Fast Reverse Loop + Previous Project */}
+          {/* Left Click Zone: Next Project */}
           <div
             className="projects-click-zone zone-left"
             onClick={() => handleSideClick('left')}
-            aria-label="Spin reverse to previous project"
+            aria-label="Next project"
             role="button"
             tabIndex={-1}
           />
 
-          {/* Invisible Right Click Zone: Fast Forward Loop + Next Project */}
+          {/* Right Click Zone: Previous Project */}
           <div
             className="projects-click-zone zone-right"
             onClick={() => handleSideClick('right')}
-            aria-label="Spin forward to next project"
+            aria-label="Previous project"
             role="button"
             tabIndex={-1}
           />
@@ -406,30 +406,50 @@ export default function Projects() {
                       ))}
                     </div>
 
-                    {/* Integrated Action Links - Unconditionally rendered on every project card */}
-                    <div className="project-card-actions-row">
-                      <a
-                        href={project.liveDemo}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="project-action-link link-primary"
-                        onClick={(e) => e.stopPropagation()}
-                        aria-label={`Open live demo for ${project.title}`}
-                      >
-                        <span>LIVE DEMO</span>
-                        <span className="action-arrow" aria-hidden="true">↗</span>
-                      </a>
-                      <a
-                        href={project.github}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="project-action-link link-secondary"
-                        onClick={(e) => e.stopPropagation()}
-                        aria-label={`Open GitHub repository for ${project.title}`}
-                      >
-                        <span>GITHUB REPO</span>
-                        <span className="action-arrow" aria-hidden="true">↗</span>
-                      </a>
+                    {/* Integrated Action Links */}
+                    <div
+                      className="project-card-actions-row"
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      {project.liveDemo ? (
+                        <a
+                          href={project.liveDemo}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="project-action-link link-primary"
+                          onClick={(e) => e.stopPropagation()}
+                          tabIndex={s.isActive ? 0 : -1}
+                          aria-label={`Open live demo for ${project.title}`}
+                        >
+                          <span>LIVE DEMO</span>
+                          <span className="action-arrow" aria-hidden="true">↗</span>
+                        </a>
+                      ) : (
+                        <span
+                          className="project-action-link link-disabled"
+                          aria-disabled="true"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            e.preventDefault();
+                          }}
+                        >
+                          <span>COMING SOON</span>
+                        </span>
+                      )}
+                      {project.github ? (
+                        <a
+                          href={project.github}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="project-action-link link-secondary"
+                          onClick={(e) => e.stopPropagation()}
+                          tabIndex={s.isActive ? 0 : -1}
+                          aria-label={`Open GitHub repository for ${project.title}`}
+                        >
+                          <span>GITHUB REPO</span>
+                          <span className="action-arrow" aria-hidden="true">↗</span>
+                        </a>
+                      ) : null}
                     </div>
                   </div>
                 </article>
