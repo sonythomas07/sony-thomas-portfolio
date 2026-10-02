@@ -39,7 +39,14 @@
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: 88px;
   -webkit-text-size-adjust: 100%;
+}
+
+@media (max-width: 860px) {
+  html {
+    scroll-padding-top: 78px;
+  }
 }
 
 body {
@@ -211,6 +218,9 @@ h4 {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto !important;
+  }
   .reveal,
   .reveal.is-in-view,
   .reveal.is-revealed,
