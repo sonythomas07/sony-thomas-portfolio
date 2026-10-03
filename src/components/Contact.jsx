@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import emailjs from '@emailjs/browser';
 import contactBg from '../assets/contactbg.png';
 import './Contact.css';
@@ -8,16 +8,30 @@ const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 function Contact() {
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
   const [errors, setErrors] = useState({});
-  const [status, setStatus] = useState('idle'); // idle | sending | success | error
+  const [status, setStatus] = useState('idle'); // idle | sending | to-success | success | to-form | error
 
-  // Auto-reset back to the original form 3 seconds after successful submission
+  // Manage morph animation phases and auto-reset timer
   useEffect(() => {
+    if (status === 'to-success') {
+      const timer = setTimeout(() => {
+        setStatus('success');
+      }, 800);
+      return () => clearTimeout(timer);
+    }
+
     if (status === 'success') {
+      const timer = setTimeout(() => {
+        handleReset();
+      }, 4000);
+      return () => clearTimeout(timer);
+    }
+
+    if (status === 'to-form') {
       const timer = setTimeout(() => {
         setStatus('idle');
         setFormData({ name: '', email: '', message: '' });
         setErrors({});
-      }, 3000);
+      }, 750);
       return () => clearTimeout(timer);
     }
   }, [status]);
@@ -66,21 +80,39 @@ function Contact() {
         templateParams,
         { publicKey: import.meta.env.VITE_EMAILJS_PUBLIC_KEY }
       );
-      setStatus('success');
-      setFormData({ name: '', email: '', message: '' });
-      setErrors({});
+      setStatus('to-success');
     } catch (_err) {
       setStatus('error');
     }
   };
 
   const handleReset = () => {
-    setStatus('idle');
-    setFormData({ name: '', email: '', message: '' });
-    setErrors({});
+    if (status === 'to-success' || status === 'to-form') return;
+    if (status === 'error') {
+      setStatus('idle');
+      setFormData({ name: '', email: '', message: '' });
+      setErrors({});
+      return;
+    }
+    setStatus('to-form');
   };
 
-  const isDisabled = status === 'sending';
+  const isDisabled = status === 'sending' || status === 'to-success';
+
+  // Determine animation classes for form and success panes
+  let formPaneClass = 'contact-morph-pane--form-visible';
+  let successPaneClass = 'contact-morph-pane--success-hidden';
+
+  if (status === 'to-success') {
+    formPaneClass = 'contact-morph-pane--form-exit';
+    successPaneClass = 'contact-morph-pane--success-enter';
+  } else if (status === 'success') {
+    formPaneClass = 'contact-morph-pane--form-hidden';
+    successPaneClass = 'contact-morph-pane--success-visible';
+  } else if (status === 'to-form') {
+    formPaneClass = 'contact-morph-pane--form-enter';
+    successPaneClass = 'contact-morph-pane--success-exit';
+  }
 
   return (
     <section className="contact section" id="contact" aria-label="Contact Section">
@@ -173,30 +205,8 @@ function Contact() {
           <div className="contact-right-col reveal reveal-delay-2">
             <div className="contact-form-card">
 
-              {/* SUCCESS STATE (Vertically & Horizontally Centered in the same card) */}
-              {status === 'success' && (
-                <div className="contact-status contact-status--success" role="status" aria-live="polite">
-                  <div className="contact-status-icon-wrap" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="#C084FC" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                      <polyline points="20 6 9 17 4 12" />
-                    </svg>
-                  </div>
-                  <h3 className="contact-status-title">MESSAGE SENT</h3>
-                  <p className="contact-status-body">
-                    Thanks for reaching out! I've received your message and will get back to you soon.
-                  </p>
-                  <button
-                    type="button"
-                    className="contact-status-reset"
-                    onClick={handleReset}
-                  >
-                    SEND ANOTHER MESSAGE
-                  </button>
-                </div>
-              )}
-
               {/* ERROR STATE */}
-              {status === 'error' && (
+              {status === 'error' ? (
                 <div className="contact-status contact-status--error" role="alert" aria-live="assertive">
                   <h3 className="contact-status-title">SOMETHING WENT WRONG</h3>
                   <p className="contact-status-body">
@@ -210,102 +220,126 @@ function Contact() {
                     TRY AGAIN
                   </button>
                 </div>
-              )}
+              ) : (
+                <div className="contact-morph-wrap">
+                  {/* ACTIVE FORM PANE */}
+                  <div className={`contact-morph-pane ${formPaneClass}`}>
+                    <form
+                      className="contact-form"
+                      onSubmit={handleSubmit}
+                      noValidate
+                      aria-label="Contact form"
+                    >
+                      <div className="contact-field">
+                        <label htmlFor="cf-name" className="contact-field-label">
+                          YOUR NAME
+                        </label>
+                        <input
+                          id="cf-name"
+                          type="text"
+                          name="name"
+                          value={formData.name}
+                          onChange={handleChange}
+                          placeholder="Your Name"
+                          autoComplete="name"
+                          required
+                          disabled={isDisabled}
+                          className={"contact-input" + (errors.name ? " contact-input--error" : "")}
+                          aria-describedby={errors.name ? "cf-name-err" : undefined}
+                        />
+                        {errors.name && (
+                          <span id="cf-name-err" className="contact-field-error" role="alert">
+                            {errors.name}
+                          </span>
+                        )}
+                      </div>
 
-              {/* ACTIVE FORM */}
-              {(status === 'idle' || status === 'sending') && (
-                <form
-                  className="contact-form"
-                  onSubmit={handleSubmit}
-                  noValidate
-                  aria-label="Contact form"
-                >
-                  <div className="contact-field">
-                    <label htmlFor="cf-name" className="contact-field-label">
-                      YOUR NAME
-                    </label>
-                    <input
-                      id="cf-name"
-                      type="text"
-                      name="name"
-                      value={formData.name}
-                      onChange={handleChange}
-                      placeholder="Your Name"
-                      autoComplete="name"
-                      required
-                      disabled={isDisabled}
-                      className={"contact-input" + (errors.name ? " contact-input--error" : "")}
-                      aria-describedby={errors.name ? "cf-name-err" : undefined}
-                    />
-                    {errors.name && (
-                      <span id="cf-name-err" className="contact-field-error" role="alert">
-                        {errors.name}
-                      </span>
-                    )}
+                      <div className="contact-field">
+                        <label htmlFor="cf-email" className="contact-field-label">
+                          EMAIL ADDRESS
+                        </label>
+                        <input
+                          id="cf-email"
+                          type="email"
+                          name="email"
+                          value={formData.email}
+                          onChange={handleChange}
+                          placeholder="Email Address"
+                          autoComplete="email"
+                          required
+                          disabled={isDisabled}
+                          className={"contact-input" + (errors.email ? " contact-input--error" : "")}
+                          aria-describedby={errors.email ? "cf-email-err" : undefined}
+                        />
+                        {errors.email && (
+                          <span id="cf-email-err" className="contact-field-error" role="alert">
+                            {errors.email}
+                          </span>
+                        )}
+                      </div>
+
+                      <div className="contact-field">
+                        <label htmlFor="cf-message" className="contact-field-label">
+                          YOUR MESSAGE
+                        </label>
+                        <textarea
+                          id="cf-message"
+                          name="message"
+                          value={formData.message}
+                          onChange={handleChange}
+                          placeholder="Tell me about your idea, project, or role..."
+                          rows={5}
+                          required
+                          disabled={isDisabled}
+                          className={"contact-textarea" + (errors.message ? " contact-input--error" : "")}
+                          aria-describedby={errors.message ? "cf-message-err" : undefined}
+                        />
+                        {errors.message && (
+                          <span id="cf-message-err" className="contact-field-error" role="alert">
+                            {errors.message}
+                          </span>
+                        )}
+                      </div>
+
+                      <button
+                        type="submit"
+                        disabled={isDisabled}
+                        className={"contact-submit-btn" + (isDisabled ? " contact-submit-btn--sending" : "")}
+                      >
+                        {isDisabled ? (
+                          <span>SENDING...</span>
+                        ) : (
+                          <>
+                            <span>SEND MESSAGE</span>
+                            <span className="btn-arrow" aria-hidden="true">↗</span>
+                          </>
+                        )}
+                      </button>
+                    </form>
                   </div>
 
-                  <div className="contact-field">
-                    <label htmlFor="cf-email" className="contact-field-label">
-                      EMAIL ADDRESS
-                    </label>
-                    <input
-                      id="cf-email"
-                      type="email"
-                      name="email"
-                      value={formData.email}
-                      onChange={handleChange}
-                      placeholder="Email Address"
-                      autoComplete="email"
-                      required
-                      disabled={isDisabled}
-                      className={"contact-input" + (errors.email ? " contact-input--error" : "")}
-                      aria-describedby={errors.email ? "cf-email-err" : undefined}
-                    />
-                    {errors.email && (
-                      <span id="cf-email-err" className="contact-field-error" role="alert">
-                        {errors.email}
-                      </span>
-                    )}
+                  {/* SUCCESS STATE PANE */}
+                  <div className={`contact-morph-pane ${successPaneClass}`}>
+                    <div className="contact-status contact-status--success" role="status" aria-live="polite">
+                      <div className="contact-status-icon-wrap" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="#C084FC" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                          <polyline points="20 6 9 17 4 12" />
+                        </svg>
+                      </div>
+                      <h3 className="contact-status-title">MESSAGE SENT</h3>
+                      <p className="contact-status-body">
+                        Thanks for reaching out! I've received your message and will get back to you soon.
+                      </p>
+                      <button
+                        type="button"
+                        className="contact-status-reset"
+                        onClick={handleReset}
+                      >
+                        SEND ANOTHER MESSAGE
+                      </button>
+                    </div>
                   </div>
-
-                  <div className="contact-field">
-                    <label htmlFor="cf-message" className="contact-field-label">
-                      YOUR MESSAGE
-                    </label>
-                    <textarea
-                      id="cf-message"
-                      name="message"
-                      value={formData.message}
-                      onChange={handleChange}
-                      placeholder="Tell me about your idea, project, or role..."
-                      rows={5}
-                      required
-                      disabled={isDisabled}
-                      className={"contact-textarea" + (errors.message ? " contact-input--error" : "")}
-                      aria-describedby={errors.message ? "cf-message-err" : undefined}
-                    />
-                    {errors.message && (
-                      <span id="cf-message-err" className="contact-field-error" role="alert">
-                        {errors.message}
-                      </span>
-                    )}
-                  </div>
-
-                  <button
-                    type="submit"
-                    disabled={isDisabled}
-                    className={"contact-submit-btn" + (isDisabled ? " contact-submit-btn--sending" : "")}
-                  >
-                    {isDisabled ? (
-                      <span>SENDING...</span>
-                    ) : (
-                      <>
-                        <span>SEND MESSAGE</span>
-                        <span className="btn-arrow" aria-hidden="true">↗</span>
-                      </>
-                    )}
-                  </button>
-                </form>
+                </div>
               )}
             </div>
           </div>

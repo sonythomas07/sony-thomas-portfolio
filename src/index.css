@@ -87,18 +87,17 @@ h4 {
   color: #fff;
 }
 
-/* Scrollbar */
+/* Scrollbar — visually hidden across entire website */
+html,
+body {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
 ::-webkit-scrollbar {
-  width: 6px;
-}
-
-::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.15);
-  border-radius: 4px;
-}
-
-::-webkit-scrollbar-track {
-  background: var(--bg);
+  display: none;
+  width: 0;
+  height: 0;
 }
 
 /* ==================================================

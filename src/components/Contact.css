@@ -455,6 +455,155 @@
 }
 
 /* ==================================================
+   CONTACT STATE MORPHING (FORM ↔ SUCCESS)
+================================================== */
+.contact-morph-wrap {
+  display: grid;
+  grid-template-columns: 100%;
+  grid-template-rows: 100%;
+  width: 100%;
+  align-items: center;
+  position: relative;
+}
+
+.contact-morph-pane {
+  grid-area: 1 / 1;
+  width: 100%;
+  transform-origin: center center;
+  will-change: opacity, transform;
+}
+
+/* Static States */
+.contact-morph-pane--form-visible {
+  opacity: 1;
+  transform: scale(1) translateY(0);
+  pointer-events: auto;
+  visibility: visible;
+}
+
+.contact-morph-pane--form-hidden {
+  opacity: 0;
+  transform: scale(0.98) translateY(-6px);
+  pointer-events: none;
+  visibility: hidden;
+}
+
+.contact-morph-pane--success-hidden {
+  opacity: 0;
+  transform: scale(0.98) translateY(8px);
+  pointer-events: none;
+  visibility: hidden;
+}
+
+.contact-morph-pane--success-visible {
+  opacity: 1;
+  transform: scale(1) translateY(0);
+  pointer-events: auto;
+  visibility: visible;
+}
+
+/* Morph Animations (800ms sequence with cubic-bezier(0.22, 1, 0.36, 1)) */
+.contact-morph-pane--form-exit {
+  animation: formMorphExit 350ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  pointer-events: none;
+}
+
+.contact-morph-pane--success-enter {
+  visibility: visible;
+  animation: successMorphEnter 450ms cubic-bezier(0.22, 1, 0.36, 1) 350ms both;
+  pointer-events: auto;
+}
+
+.contact-morph-pane--success-exit {
+  animation: successMorphExit 300ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  pointer-events: none;
+}
+
+.contact-morph-pane--form-enter {
+  visibility: visible;
+  animation: formMorphEnter 450ms cubic-bezier(0.22, 1, 0.36, 1) 280ms both;
+  pointer-events: auto;
+}
+
+@keyframes formMorphExit {
+  0% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.98) translateY(-6px);
+  }
+}
+
+@keyframes successMorphEnter {
+  0% {
+    opacity: 0;
+    transform: scale(0.98) translateY(8px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes successMorphExit {
+  0% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.98) translateY(-6px);
+  }
+}
+
+@keyframes formMorphEnter {
+  0% {
+    opacity: 0;
+    transform: scale(0.98) translateY(8px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .contact-morph-pane {
+    transform: none !important;
+  }
+  .contact-morph-pane--form-exit {
+    animation: formReducedExit 250ms ease forwards;
+  }
+  .contact-morph-pane--success-enter {
+    animation: successReducedEnter 250ms ease both;
+  }
+  .contact-morph-pane--success-exit {
+    animation: successReducedExit 200ms ease forwards;
+  }
+  .contact-morph-pane--form-enter {
+    animation: formReducedEnter 250ms ease both;
+  }
+  @keyframes formReducedExit {
+    0% { opacity: 1; }
+    100% { opacity: 0; }
+  }
+  @keyframes successReducedEnter {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+  }
+  @keyframes successReducedExit {
+    0% { opacity: 1; }
+    100% { opacity: 0; }
+  }
+  @keyframes formReducedEnter {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+  }
+}
+
+/* ==================================================
    RESPONSIVE BREAKPOINTS
 ================================================== */
 @media (max-width: 1094px) {

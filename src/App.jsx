@@ -1,4 +1,5 @@
 import React from 'react';
+import LoadingScreen from './components/LoadingScreen';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import About from './components/About';
@@ -15,6 +16,7 @@ export default function App() {
 
   return (
     <div id="website">
+      <LoadingScreen />
       <Navbar />
       <Hero />
       <About />
