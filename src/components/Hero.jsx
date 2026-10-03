@@ -96,7 +96,7 @@ export default function Hero() {
               <span className="btn-arrow" aria-hidden="true">→</span>
             </a>
             <a
-              href="/Sony_Thomas_Resume.pdf"
+              href={`${import.meta.env.BASE_URL}Sony_Thomas_Resume.pdf`}
               target="_blank"
               rel="noopener noreferrer"
               className="btn-hero-secondary"
