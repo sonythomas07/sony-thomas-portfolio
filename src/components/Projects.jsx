@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import './Projects.css';
 import project1Img from '../assets/project_1.png';
+import project2Img from '../assets/project_2.png';
 import comingSoonImg from '../assets/coming-soon.png';
 
 /* ─── Project data ───────────────────────────────────────────────────────── */
@@ -12,10 +13,12 @@ const projectsData = [
     description:
       "Sony Thomas's personal developer portfolio showcasing engineering projects, interactive interfaces, and intelligent systems built with modern web technologies.",
     technologies: ['React', 'JavaScript', 'Vite', 'CSS'],
-    image: null,
+    image: project1Img,
     categoryTag: 'DEVELOPER PORTFOLIO',
-    liveDemo: null,
+    liveDemo: 'https://sonythomas07.github.io/sony-thomas-portfolio/',
+    liveLabel: 'VIEW PORTFOLIO',
     github: 'https://github.com/sonythomas07/sony-thomas-portfolio.git',
+    githubLabel: 'VIEW SOURCE',
   },
   {
     number: '02',
@@ -24,10 +27,12 @@ const projectsData = [
     description:
       'A desktop-focused SaaS admin dashboard designed with a UI/UX-first approach and built using HTML, CSS, and JavaScript. Features analytics, sales, product and customer management, notifications, and light/dark mode.',
     technologies: ['HTML', 'CSS', 'JavaScript'],
-    image: project1Img,
+    image: project2Img,
     categoryTag: 'SAAS ADMIN DASHBOARD',
     liveDemo: 'https://sonythomas07.github.io/dashflow-saas-dashboard/',
+    liveLabel: 'VIEW DASHBOARD',
     github: 'https://github.com/sonythomas07/dashflow-saas-dashboard',
+    githubLabel: 'VIEW SOURCE',
   },
   {
     number: '03',
@@ -55,13 +60,15 @@ const projectsData = [
   },
 ];
 
-/* ─── Constants ─────────────────────────────────────────────────────────── */
+/* ─── Desktop Orbit Constants ───────────────────────────────────────────── */
 const N                 = projectsData.length;
 const ROTATION_SPEED    = 1 / 10;   // full orbit every 10 s (steady & continuous)
 const TRANSITION_DUR    = 550;      // ms: single direct card click transition
 const PAUSE_DUR         = 10000;    // ms: exactly 10s pause after reaching center
+const MOBILE_AUTO_DUR       = 5000;     // ms: mobile 5s auto-transition interval
+const MOBILE_TRANSITION_DUR = 1000;     // ms: mobile card transition duration (smooth, slow, natural)
 
-/* ─── Responsive arc parameters ─────────────────────────────────────────── */
+/* ─── Responsive arc parameters (Desktop) ─────────────────────────────────── */
 function getArcParams(vw) {
   if (vw <= 768) {
     return { rx: 0, rz: 0, ryMax: 0 };
@@ -75,7 +82,7 @@ function getArcParams(vw) {
   return { rx: 370, rz: 180, ryMax: 18 };
 }
 
-/* ─── Position & Visibility Calculation ─────────────────────────────────── */
+/* ─── Desktop Position & Visibility Calculation ─────────────────────────── */
 function computeCardStyles(pos, params) {
   const { rx, rz, ryMax } = params;
 
@@ -135,9 +142,112 @@ function easeInOutCubic(t) {
   return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
 }
 
+/* ─── Shared Card Content Renderer ───────────────────────────────────────── */
+function ProjectCardInner({ project, isActive }) {
+  return (
+    <>
+      <div className="project-card-preview">
+        {project.image ? (
+          <div className="project-preview-media">
+            <img
+              src={project.image}
+              alt={project.title}
+              className="project-preview-img"
+              loading="lazy"
+            />
+            <div className="preview-overlay-gradient" aria-hidden="true" />
+          </div>
+        ) : (
+          <div className="project-preview-clean-placeholder">
+            <div className="placeholder-top-bar">
+              <span className="placeholder-tech-badge">{project.categoryTag}</span>
+              <span className="placeholder-num-watermark">{project.number}</span>
+            </div>
+            <div className="placeholder-center-info">
+              <h4 className="placeholder-project-name">{project.title}</h4>
+              {project.concept && (
+                <span className="placeholder-concept-pill">CONCEPT</span>
+              )}
+            </div>
+          </div>
+        )}
+      </div>
+
+      <div className="project-card-content">
+        <div className="project-card-header">
+          <span className="project-card-num">{project.number}</span>
+          <div className="project-card-title-row">
+            <h3 className="project-card-title">{project.title}</h3>
+            {project.concept && (
+              <span className="project-concept-badge">CONCEPT</span>
+            )}
+          </div>
+        </div>
+        <p className="project-card-desc">{project.description}</p>
+        <div className="project-card-tags" aria-label="Technologies used">
+          {project.technologies.map((tech) => (
+            <span className="project-tech-pill" key={tech}>{tech}</span>
+          ))}
+        </div>
+
+        {/* Integrated Action Links */}
+        <div
+          className="project-card-actions-row"
+          onClick={(e) => e.stopPropagation()}
+        >
+          {project.liveDemo ? (
+            <a
+              href={project.liveDemo}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="project-action-link link-primary"
+              onClick={(e) => e.stopPropagation()}
+              tabIndex={isActive ? 0 : -1}
+              aria-label={`Open ${project.liveLabel || 'live demo'} for ${project.title}`}
+            >
+              <span>{project.liveLabel || 'LIVE DEMO'}</span>
+              <span className="action-arrow" aria-hidden="true">↗</span>
+            </a>
+          ) : (
+            <span
+              className="project-action-link link-disabled"
+              aria-disabled="true"
+              onClick={(e) => {
+                e.stopPropagation();
+                e.preventDefault();
+              }}
+            >
+              <span>COMING SOON</span>
+            </span>
+          )}
+          {project.github ? (
+            <a
+              href={project.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="project-action-link link-secondary"
+              onClick={(e) => e.stopPropagation()}
+              tabIndex={isActive ? 0 : -1}
+              aria-label={`Open ${project.githubLabel || 'source repository'} for ${project.title}`}
+            >
+              <span>{project.githubLabel || 'VIEW SOURCE'}</span>
+              <span className="action-arrow" aria-hidden="true">↗</span>
+            </a>
+          ) : null}
+        </div>
+      </div>
+    </>
+  );
+}
+
 /* ─── Component ──────────────────────────────────────────────────────────── */
 export default function Projects() {
-  /* Mutable animation refs */
+  /* Screen size detection */
+  const [isMobile, setIsMobile] = useState(() =>
+    typeof window !== 'undefined' ? window.innerWidth <= 768 : false
+  );
+
+  /* ── Desktop animation refs & state ── */
   const posRef     = useRef(0);
   const modeRef    = useRef('rotating');  // 'rotating' | 'transitioning' | 'paused'
   const rafRef     = useRef(null);
@@ -151,12 +261,125 @@ export default function Projects() {
       : false
   );
 
-  /* Render state */
   const [cardStyles, setCardStyles] = useState(() =>
     computeCardStyles(0, paramsRef.current)
   );
 
-  /* ── Core animation loop ── */
+  /* ── Mobile carousel state & refs ── */
+  const [mobileIndex, setMobileIndex] = useState(0);
+  const [animState, setAnimState] = useState({
+    isAnimating: false,
+    prevIndex: null,
+    direction: 'next',
+  });
+  const mobileTimerRef  = useRef(null);
+  const isTouchingRef   = useRef(false);
+  const touchStartRef   = useRef({ x: 0, y: 0, time: 0 });
+  const animTimeoutRef  = useRef(null);
+
+  /* ── Mobile navigation handlers ── */
+  const goToNextMobile = useCallback(() => {
+    setMobileIndex((prev) => {
+      const next = (prev + 1) % N;
+      setAnimState({
+        isAnimating: true,
+        prevIndex: prev,
+        direction: 'next',
+      });
+      return next;
+    });
+  }, []);
+
+  const goToPrevMobile = useCallback(() => {
+    setMobileIndex((prev) => {
+      const prevIdx = (prev - 1 + N) % N;
+      setAnimState({
+        isAnimating: true,
+        prevIndex: prev,
+        direction: 'prev',
+      });
+      return prevIdx;
+    });
+  }, []);
+
+  /* ── Mobile Animation Timeout Reset ── */
+  useEffect(() => {
+    if (animState.isAnimating) {
+      if (animTimeoutRef.current) clearTimeout(animTimeoutRef.current);
+      animTimeoutRef.current = setTimeout(() => {
+        setAnimState((curr) => ({ ...curr, isAnimating: false, prevIndex: null }));
+      }, MOBILE_TRANSITION_DUR);
+    }
+    return () => {
+      if (animTimeoutRef.current) clearTimeout(animTimeoutRef.current);
+    };
+  }, [animState.isAnimating]);
+
+  /* ── Mobile 5-second Auto-Rotation Timer ── */
+  const resetMobileTimer = useCallback(() => {
+    if (mobileTimerRef.current) {
+      clearTimeout(mobileTimerRef.current);
+      mobileTimerRef.current = null;
+    }
+    if (!isMobile || isTouchingRef.current || reducedRef.current) return;
+
+    mobileTimerRef.current = setTimeout(() => {
+      goToNextMobile();
+    }, MOBILE_AUTO_DUR);
+  }, [isMobile, goToNextMobile]);
+
+  useEffect(() => {
+    if (isMobile) {
+      resetMobileTimer();
+    }
+    return () => {
+      if (mobileTimerRef.current) {
+        clearTimeout(mobileTimerRef.current);
+        mobileTimerRef.current = null;
+      }
+    };
+  }, [isMobile, mobileIndex, resetMobileTimer]);
+
+  /* ── Mobile Touch Swipe Handlers ── */
+  const handleTouchStart = (e) => {
+    isTouchingRef.current = true;
+    if (mobileTimerRef.current) {
+      clearTimeout(mobileTimerRef.current);
+      mobileTimerRef.current = null;
+    }
+    const touch = e.touches[0];
+    touchStartRef.current = {
+      x: touch.clientX,
+      y: touch.clientY,
+      time: Date.now(),
+    };
+  };
+
+  const handleTouchEnd = (e) => {
+    isTouchingRef.current = false;
+    const touch = e.changedTouches[0];
+    const deltaX = touch.clientX - touchStartRef.current.x;
+    const deltaY = touch.clientY - touchStartRef.current.y;
+    const absDeltaX = Math.abs(deltaX);
+    const absDeltaY = Math.abs(deltaY);
+    const duration = Date.now() - touchStartRef.current.time;
+
+    // Minimum 40px horizontal swipe, must dominate vertical movement, within 800ms (or strong distance > 70px)
+    const isHorizontalSwipe =
+      absDeltaX >= 40 && absDeltaX > absDeltaY * 1.2 && (duration < 800 || absDeltaX > 70);
+
+    if (isHorizontalSwipe) {
+      if (deltaX < 0) {
+        goToNextMobile();
+      } else {
+        goToPrevMobile();
+      }
+    } else {
+      resetMobileTimer();
+    }
+  };
+
+  /* ── Desktop Core animation loop ── */
   const tick = useCallback((timestamp) => {
     if (lastTRef.current === null) lastTRef.current = timestamp;
     const dt = Math.min((timestamp - lastTRef.current) / 1000, 0.1);
@@ -199,24 +422,28 @@ export default function Projects() {
   /* ── Responsive window resize ── */
   useEffect(() => {
     const onResize = () => {
+      const mobile = window.innerWidth <= 768;
+      setIsMobile(mobile);
       paramsRef.current = getArcParams(window.innerWidth);
-      setCardStyles(computeCardStyles(posRef.current, paramsRef.current));
+      if (!mobile) {
+        setCardStyles(computeCardStyles(posRef.current, paramsRef.current));
+      }
     };
     window.addEventListener('resize', onResize);
     return () => window.removeEventListener('resize', onResize);
   }, []);
 
-  /* ── Mount / Unmount animation lifecycle ── */
+  /* ── Mount / Unmount animation lifecycle (Desktop) ── */
   useEffect(() => {
-    if (reducedRef.current) return;
+    if (reducedRef.current || isMobile) return;
     rafRef.current = requestAnimationFrame(tick);
     return () => {
       if (rafRef.current)   cancelAnimationFrame(rafRef.current);
       if (timerRef.current) clearTimeout(timerRef.current);
     };
-  }, [tick]);
+  }, [tick, isMobile]);
 
-  /* ── Direct Card Click: smoothly bring specified card to center ── */
+  /* ── Desktop Direct Card Click: smoothly bring specified card to center ── */
   const handleCardClick = useCallback((clickedIndex) => {
     if (reducedRef.current) return;
 
@@ -250,7 +477,7 @@ export default function Projects() {
     rafRef.current   = requestAnimationFrame(tick);
   }, [tick]);
 
-  /* ── Directional Side Click: Single Card Next/Previous ── */
+  /* ── Desktop Directional Side Click: Single Card Next/Previous ── */
   const handleSideClick = useCallback((side) => {
     if (reducedRef.current) return;
 
@@ -314,6 +541,7 @@ export default function Projects() {
           </p>
         </div>
 
+        {/* DESKTOP VIEW: Circular / Orbiting Carousel (100% Unchanged) */}
         <div
           className="projects-orbit-stage reveal reveal-delay-2"
           role="region"
@@ -362,99 +590,68 @@ export default function Projects() {
                   aria-label={`Project ${project.number}: ${project.title}`}
                   aria-hidden={!s.isActive}
                 >
-                  <div className="project-card-preview">
-                    {project.image ? (
-                      <div className="project-preview-media">
-                        <img
-                          src={project.image}
-                          alt={project.title}
-                          className="project-preview-img"
-                          loading="lazy"
-                        />
-                        <div className="preview-overlay-gradient" aria-hidden="true" />
-                      </div>
-                    ) : (
-                      <div className="project-preview-clean-placeholder">
-                        <div className="placeholder-top-bar">
-                          <span className="placeholder-tech-badge">{project.categoryTag}</span>
-                          <span className="placeholder-num-watermark">{project.number}</span>
-                        </div>
-                        <div className="placeholder-center-info">
-                          <h4 className="placeholder-project-name">{project.title}</h4>
-                          {project.concept && (
-                            <span className="placeholder-concept-pill">CONCEPT</span>
-                          )}
-                        </div>
-                      </div>
-                    )}
-                  </div>
-
-                  <div className="project-card-content">
-                    <div className="project-card-header">
-                      <span className="project-card-num">{project.number}</span>
-                      <div className="project-card-title-row">
-                        <h3 className="project-card-title">{project.title}</h3>
-                        {project.concept && (
-                          <span className="project-concept-badge">CONCEPT</span>
-                        )}
-                      </div>
-                    </div>
-                    <p className="project-card-desc">{project.description}</p>
-                    <div className="project-card-tags" aria-label="Technologies used">
-                      {project.technologies.map((tech) => (
-                        <span className="project-tech-pill" key={tech}>{tech}</span>
-                      ))}
-                    </div>
-
-                    {/* Integrated Action Links */}
-                    <div
-                      className="project-card-actions-row"
-                      onClick={(e) => e.stopPropagation()}
-                    >
-                      {project.liveDemo ? (
-                        <a
-                          href={project.liveDemo}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="project-action-link link-primary"
-                          onClick={(e) => e.stopPropagation()}
-                          tabIndex={s.isActive ? 0 : -1}
-                          aria-label={`Open live demo for ${project.title}`}
-                        >
-                          <span>LIVE DEMO</span>
-                          <span className="action-arrow" aria-hidden="true">↗</span>
-                        </a>
-                      ) : (
-                        <span
-                          className="project-action-link link-disabled"
-                          aria-disabled="true"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            e.preventDefault();
-                          }}
-                        >
-                          <span>COMING SOON</span>
-                        </span>
-                      )}
-                      {project.github ? (
-                        <a
-                          href={project.github}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="project-action-link link-secondary"
-                          onClick={(e) => e.stopPropagation()}
-                          tabIndex={s.isActive ? 0 : -1}
-                          aria-label={`Open GitHub repository for ${project.title}`}
-                        >
-                          <span>GITHUB REPO</span>
-                          <span className="action-arrow" aria-hidden="true">↗</span>
-                        </a>
-                      ) : null}
-                    </div>
-                  </div>
+                  <ProjectCardInner project={project} isActive={s.isActive} />
                 </article>
               );
             })}
+          </div>
+        </div>
+
+        {/* MOBILE VIEW: Single Active Card with Touch Swipe & 5s Auto-Rotation */}
+        <div
+          className="mobile-projects-carousel reveal reveal-delay-2"
+          role="region"
+          aria-roledescription="carousel"
+          aria-label="Mobile Projects Carousel"
+          onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchEnd}
+        >
+          <div className="mobile-cards-stage">
+            {/* If animating, render the exiting card */}
+            {animState.isAnimating && animState.prevIndex !== null && (
+              <div
+                className={`mobile-card-wrapper is-exiting ${
+                  animState.direction === 'next'
+                    ? 'mobile-slide-out-left'
+                    : 'mobile-slide-out-right'
+                }`}
+                aria-hidden="true"
+              >
+                <article
+                  className="project-orbit-card is-active"
+                  tabIndex={-1}
+                >
+                  <ProjectCardInner
+                    project={projectsData[animState.prevIndex]}
+                    isActive={false}
+                  />
+                </article>
+              </div>
+            )}
+
+            {/* Active / Entering Card */}
+            <div
+              className={`mobile-card-wrapper is-entering ${
+                animState.isAnimating
+                  ? animState.direction === 'next'
+                    ? 'mobile-slide-in-right'
+                    : 'mobile-slide-in-left'
+                  : ''
+              }`}
+            >
+              <article
+                key={projectsData[mobileIndex].number}
+                className="project-orbit-card is-active"
+                role="group"
+                aria-roledescription="slide"
+                aria-label={`Project ${projectsData[mobileIndex].number}: ${projectsData[mobileIndex].title}`}
+              >
+                <ProjectCardInner
+                  project={projectsData[mobileIndex]}
+                  isActive={true}
+                />
+              </article>
+            </div>
           </div>
         </div>
 

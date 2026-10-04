@@ -299,7 +299,7 @@
   align-items: center;
   flex-wrap: nowrap;
   gap: 18px;
-  padding-top: px;
+  padding-top: 0;
 }
 
 .hero-tech-item {
@@ -839,8 +839,10 @@
   }
 
   .hero-tech-row {
-    flex-wrap: wrap;
-    gap: 14px 18px;
+    flex-wrap: nowrap;
+    width: 100%;
+    justify-content: flex-start;
+    gap: 14px 16px;
   }
 
   .hero-tech-icon-wrap,
@@ -926,6 +928,13 @@
     padding: 13px 22px;
   }
 
+  .hero-tech-row {
+    flex-wrap: nowrap;
+    width: 100%;
+    justify-content: center;
+    gap: clamp(8px, 2.2vw, 14px);
+  }
+
   .portrait-composition {
     max-width: 310px;
   }
@@ -983,21 +992,31 @@
   }
 
   .hero-tech-row {
-    gap: 12px 14px;
+    flex-wrap: nowrap;
+    width: 100%;
+    justify-content: center;
+    gap: clamp(6px, 1.8vw, 10px);
+  }
+
+  .hero-tech-item {
+    gap: 6px;
+    flex-shrink: 0;
   }
 
   .hero-tech-icon-wrap,
   .tech-svg {
-    width: 26px;
-    height: 26px;
+    width: 24px;
+    height: 24px;
   }
 
   .hero-tech-name {
-    font-size: 0.78rem;
+    font-size: clamp(0.7rem, 2.3vw, 0.76rem);
+    letter-spacing: 0.1px;
   }
 
   .hero-tech-sep {
-    height: 22px;
+    height: 20px;
+    margin: 0;
   }
 
   .portrait-composition {
@@ -1029,6 +1048,29 @@
   .hero-role {
     font-size: 1.8rem;
   }
+
+  .hero-tech-row {
+    gap: 4px;
+  }
+
+  .hero-tech-item {
+    gap: 5px;
+  }
+
+  .hero-tech-icon-wrap,
+  .tech-svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  .hero-tech-name {
+    font-size: 0.68rem;
+  }
+
+  .hero-tech-sep {
+    height: 18px;
+  }
+
   .portrait-composition {
     max-width: 230px;
   }

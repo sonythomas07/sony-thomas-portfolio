@@ -289,6 +289,11 @@
   user-select: none;
 }
 
+/* MOBILE CAROUSEL (HIDDEN ON DESKTOP) */
+.mobile-projects-carousel {
+  display: none;
+}
+
 /* RESPONSIVE */
 @media (max-width: 1094px) {
   .projects-orbit-cards-container { height: 550px; }
@@ -305,12 +310,54 @@
   .projects { padding: 30px 0; }
   .projects-container { gap: 32px; }
   .projects-top-bar { flex-direction: column; align-items: flex-start; gap: 10px; }
+  .projects-micro-text {
+    font-size: 0.72rem;
+    letter-spacing: 1.6px;
+    gap: 8px;
+    flex-wrap: wrap;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
   .projects-main-headline { font-size: 2.2rem; }
-  .projects-orbit-stage { overflow: hidden; }
-  .projects-click-zone { display: none; }
-  .projects-orbit-cards-container { height: auto; min-height: 480px; }
-  /* On mobile, override RAF-applied inline transforms; only active card shows */
-  .project-orbit-card {
+  
+  /* Hide Desktop Orbit on Mobile */
+  .projects-orbit-stage { display: none !important; }
+  .projects-click-zone { display: none !important; }
+
+  /* Show Mobile Single-Card Carousel */
+  .mobile-projects-carousel {
+    display: block;
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    touch-action: pan-y;
+  }
+
+  .mobile-cards-stage {
+    position: relative;
+    width: 100%;
+  }
+
+  .mobile-card-wrapper {
+    width: 100%;
+  }
+
+  .mobile-card-wrapper.is-exiting {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  .mobile-card-wrapper.is-entering {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+  }
+
+  .mobile-card-wrapper .project-orbit-card {
     position: relative;
     top: 0;
     left: 0;
@@ -322,11 +369,14 @@
     filter: none !important;
     z-index: 1 !important;
   }
-  .project-orbit-card.is-surrounding { display: none; }
-  .project-orbit-card.is-active { display: block; }
 }
 
 @media (max-width: 480px) {
+  .projects-micro-text {
+    font-size: clamp(0.58rem, 2.7vw, 0.66rem);
+    letter-spacing: clamp(0.6px, 0.35vw, 1.2px);
+    gap: clamp(4px, 1.4vw, 7px);
+  }
   .projects-main-headline { font-size: 1.95rem; }
   .project-card-preview   { height: 180px; }
   .project-card-content   { padding: 18px 16px 20px; }
@@ -335,7 +385,76 @@
   .project-action-link    { width: 100%; justify-content: center; }
 }
 
+/* ── Mobile Slide / Fade Keyframe Animations ── */
+@keyframes mobileSlideOutLeft {
+  0% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(-40px);
+    opacity: 0;
+  }
+}
+
+@keyframes mobileSlideInRight {
+  0% {
+    transform: translateX(40px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes mobileSlideOutRight {
+  0% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(40px);
+    opacity: 0;
+  }
+}
+
+@keyframes mobileSlideInLeft {
+  0% {
+    transform: translateX(-40px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.mobile-slide-out-left {
+  animation: mobileSlideOutLeft 1000ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.mobile-slide-in-right {
+  animation: mobileSlideInRight 1000ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.mobile-slide-out-right {
+  animation: mobileSlideOutRight 1000ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.mobile-slide-in-left {
+  animation: mobileSlideInLeft 1000ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
 /* Respect reduced-motion preference */
 @media (prefers-reduced-motion: reduce) {
   .project-orbit-card { transition: border-color 0.2s ease, box-shadow 0.2s ease; }
+  .mobile-slide-out-left,
+  .mobile-slide-in-right,
+  .mobile-slide-out-right,
+  .mobile-slide-in-left {
+    animation: none !important;
+    transform: none !important;
+    opacity: 1 !important;
+  }
 }
